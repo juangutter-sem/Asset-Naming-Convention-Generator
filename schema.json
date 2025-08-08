@@ -162,16 +162,16 @@
       { "label": "Enterprise", "code": "enterprise" }
     ],
     "Asset Format": [
-      { "label": "bnr-html5", "code": "bnr-html5" },
-      { "label": "bnr-anim", "code": "bnr-anim" },
-      { "label": "carousel", "code": "carousel" },
-      { "label": "dynrem", "code": "dynrem" },
-      { "label": "inmail", "code": "inmail" },
-      { "label": "image", "code": "image" },
-      { "label": "video10s", "code": "video10s" },
-      { "label": "video15s", "code": "video15s" },
-      { "label": "video30s", "code": "video30s" },
-      { "label": "videoover30s", "code": "videoover30s" }
+      { "label": "HTML5 Banner", "code": "bnr-html5" },
+      { "label": "Animated Banner", "code": "bnr-anim" },
+      { "label": "Carousel", "code": "carousel" },
+      { "label": "Dynamic Remarketing", "code": "dynrem" },
+      { "label": "Inmail", "code": "inmail" },
+      { "label": "Image", "code": "image" },
+      { "label": "Video 10s", "code": "video10s" },
+      { "label": "Video 15s", "code": "video15s" },
+      { "label": "Video 30s", "code": "video30s" },
+      { "label": "Video over 30s", "code": "videoover30s" }
     ],
     "Asset SubType": [
       { "label": "AIJTBD", "code": "aijtbd" },
@@ -188,8 +188,10 @@
       { "label": "ProductWalkthrough", "code": "productwalkthrough" }
     ],
     "Language": [
-      { "label": "EN", "code": "en" },
-      { "label": "ES", "code": "es" }
+      { "label": "English", "code": "en" },
+      { "label": "Spanish", "code": "es" }
+      { "label": "French", "code": "fr" }
+      { "label": "German", "code": "de" }
     ]
   }
 }
