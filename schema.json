@@ -14,13 +14,13 @@
   "delimiter": "_",
   "case": "lower",
   "fields": {
-    "Campaign category": [
+    "Campaign Category": [
       { "label": "Brand", "code": "brand" },
       { "label": "Main", "code": "main" },
       { "label": "Product", "code": "product" }
     ],
     "Campaign Name": [
-      { "label": "Makeit", "code": "makeit" },
+      { "label": "Make It", "code": "makeit" },
       { "label": "Gaby", "code": "gaby" },
       { "label": "SMB", "code": "smb" },
       { "label": "Rapid AI", "code": "rapidai" },
@@ -34,7 +34,7 @@
       { "label": "Full-Stack Marketer - SEO", "code": "fsm-seo" },
       { "label": "SMB - Full Stack Marketer", "code": "smb-fsm" },
       { "label": "SMB", "code": "smb" },
-      { "label": "All - PSN", "code": "all-psn" }
+      { "label": "All-PSN", "code": "all-psn" }
     ],
     "Landing Page Type": [
       { "label": "Blogpost", "code": "bp" },
