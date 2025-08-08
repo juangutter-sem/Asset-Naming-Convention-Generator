@@ -189,8 +189,8 @@
     ],
     "Language": [
       { "label": "English", "code": "en" },
-      { "label": "Spanish", "code": "es" }
-      { "label": "French", "code": "fr" }
+      { "label": "Spanish", "code": "es" },
+      { "label": "French", "code": "fr" },
       { "label": "German", "code": "de" }
     ]
   }
