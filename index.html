@@ -85,6 +85,11 @@
 
     /* ===== Focus states ===== */
     :where(button, [role="button"], select, summary).focus-visible{outline:var(--focus);outline-offset:2px}
+    select.missing {
+      border-color: #e74c3c !important; /* red border */
+      box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.3);
+    }
+    
   </style>
 </head>
 <body>
@@ -231,7 +236,8 @@
       outputEl.textContent = out || 'Select values to generate…';
       copyBtn.disabled = !complete;
       copyNewBtn.disabled = !complete;
-      validity.textContent = complete? 'Ready to copy' : 'Incomplete';
+      copyBtn.textContent = complete ? 'Copy' : 'Select All Values';
+      validity.textContent = complete ? 'Ready to copy' : 'Incomplete';
       return { out, complete };
     }
 
@@ -251,10 +257,21 @@
       compose();
     }
 
+    function highlightMissingFields(){
+      NAMING_SCHEMA.order.forEach(label=>{
+        const sel=document.querySelector(`select[data-label="${label}"]`);
+        if(!state[label]) sel.classList.add('missing');
+      });
+    }
+    
     function attach(){
       NAMING_SCHEMA.order.forEach(label=>{
         const sel=document.querySelector(`select[data-label="${label}"]`);
-        sel.addEventListener('change', e=>{ state[label]=e.target.value; compose(); });
+        sel.addEventListener('change', e=>{
+          state[label]=e.target.value;
+          sel.classList.remove('missing');
+          compose();
+        });
       });
       document.getElementById('resetBtn').addEventListener('click', resetAll);
 
@@ -277,8 +294,22 @@
         }
       }
 
-      copyBtn.addEventListener('click', ()=>doCopy(false));
-      copyNewBtn.addEventListener('click', ()=>doCopy(true));
+      copyBtn.addEventListener('click', ()=>{
+        const { complete } = compose();
+        if (!complete) {
+          highlightMissingFields();
+          return;
+        }
+        doCopy(false);
+      });
+      copyNewBtn.addEventListener('click', ()=>{
+        const { complete } = compose();
+        if (!complete) {
+          highlightMissingFields();
+          return;
+        }
+        doCopy(true);
+      });
 
       // === Chips: copy on click ===
       const valuesList = document.getElementById('valuesList');
