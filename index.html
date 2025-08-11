@@ -25,6 +25,7 @@
     /* ===== LAYOUT ===== */
     *{box-sizing:border-box}
     html,body{height:100%}
+    html{overflow-y:scroll}
     body{margin:0;background:radial-gradient(1200px 600px at 10% -10%, var(--bg2) 0%, var(--bg) 45%, var(--bg) 100%);color:var(--text);font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;transition:background .3s ease,color .3s ease}
     a.skip{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
     a.skip:focus{left:16px;top:16px;width:auto;height:auto;background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;border:1px solid var(--outline);box-shadow:var(--shadow)}
@@ -40,6 +41,7 @@
     .card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid var(--outline);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
     .card h2{margin:4px 0 14px;font-size:18px}
     .row{display:flex;gap:var(--gap);align-items:center;flex-wrap:wrap}
+    .toolbar{margin-bottom:var(--gap)}
     .grid{display:grid;gap:var(--gap);grid-template-columns:repeat(2,minmax(180px,1fr))}
     @media (max-width:720px){.grid{grid-template-columns:1fr}}
     label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
@@ -107,7 +109,7 @@
     <section class="card" id="genPanel" aria-labelledby="genHeading">
       <h2 id="genHeading">Generator</h2>
       <div class="divider" role="presentation"></div>
-      <div class="row" style="justify-content:space-between">
+      <div class="row toolbar" style="justify-content:space-between">
         <span class="pill" aria-live="polite" id="reqNote">All fields required</span>
         <div class="row" style="gap:8px">
           <button id="resetBtn" class="btn" type="button">Clear</button>
@@ -128,7 +130,7 @@
     <!-- Right: Convention / Values -->
     <section class="card" aria-labelledby="valuesHeading">
       <h2 id="valuesHeading">Naming Convention</h2>
-      <div class="row" style="justify-content:space-between">
+      <div class="row toolbar" style="justify-content:space-between">
         <div>
           <label>Current source</label>
          <div class="pill" id="sourcePill">Embedded JSON</div>
@@ -234,7 +236,7 @@
       const out = toCase(parts.join(NAMING_SCHEMA.delimiter), NAMING_SCHEMA.case);
       outputEl.textContent = out || 'Select values to generate…';
       copyBtn.disabled = !complete;
-      copyNewBtn.disabled = !complete;
+      if (copyNewBtn) copyNewBtn.disabled = !complete;
       copyBtn.textContent = complete ? 'Copy' : 'Select All Values';
       validity.textContent = complete ? 'Ready to copy' : 'Incomplete';
       return { out, complete };
@@ -301,7 +303,7 @@
         }
         doCopy(false);
       });
-      copyNewBtn.addEventListener('click', ()=>{
+      if (copyNewBtn) copyNewBtn.addEventListener('click', ()=>{
         const { complete } = compose();
         if (!complete) {
           highlightMissingFields();
