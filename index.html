@@ -1,392 +1,508 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Generate consistent campaign asset names from a documented naming convention." />
-  <meta name="color-scheme" content="dark light" />
-  <meta name="theme-color" content="#0b0e13" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#eef1f7" media="(prefers-color-scheme: light)">
-  <title>Campaign Name Generator</title>
+  <title>DM Name Generator</title>
+  <meta name="description" content="Build consistent asset names from a documented naming convention." />
+
+  <!-- Inter font like the screenshot -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    /* ===== THEME ===== */
     :root{
-      --bg:#0b0e13; --bg2:#101522; --card:#141923; --muted:#8a93a6; --text:#e6e9ef; --outline:#222837; --accent:#6ea8fe; --accent2:#9b7bff; --success:#7ef29a;
-      --codeBg:#0c111b; --codeText:#cfe3ff;
-      --radius:14px; --gap:14px;
-      --shadow:0 10px 30px rgba(0,0,0,.10);
-      --focus: 2px solid var(--accent);
+      /* Light theme — default */
+      --bg:#f5f7fb;
+      --fg:#111827;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --card-2:#f3f6fb;
+      --border:#e7ebf2;
+      --brand:#2563eb;
+      --brand-2:#1d4ed8;
+      --focus: 2px solid color-mix(in srgb, var(--brand), white 65%);
+      --pill:#eef2f8;
+      --success:#10b981;
+      --danger:#ef4444;
+      --shadow: 0 1px 2px rgba(16,24,40,.04), 0 8px 24px rgba(16,24,40,.06);
+      --radius:16px;
     }
-    [data-theme="light"]{
-      --bg:#eef1f7; --bg2:#f6f7fb; --card:#ffffff; --muted:#5b647a; --text:#0f1222; --outline:#d6dbe8; --accent:#3b82f6; --accent2:#8b5cf6; --success:#10b981;
-      --codeBg:#0f172a; --codeText:#e5edff;
+    html[data-theme="dark"]{
+      --bg:#0c1116; --fg:#e6edf3; --muted:#9aa3ad; --card:#0f141b; --card-2:#0b1016; --border:#1f2a37;
+      --brand:#6ea8fe; --brand-2:#2b6ee7; --focus:2px solid color-mix(in srgb, var(--brand), transparent 40%); --pill:#141823;
+      --success:#22c55e; --danger:#f87171; --shadow:0 0 0 1px rgba(0,0,0,.5), 0 10px 28px rgba(0,0,0,.35);
     }
 
-    /* ===== LAYOUT ===== */
     *{box-sizing:border-box}
-    html,body{height:100%}
-    html{overflow-y:scroll}
-    body{margin:0;background:radial-gradient(1200px 600px at 10% -10%, var(--bg2) 0%, var(--bg) 45%, var(--bg) 100%);color:var(--text);font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;transition:background .3s ease,color .3s ease}
-    a.skip{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
-    a.skip:focus{left:16px;top:16px;width:auto;height:auto;background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;border:1px solid var(--outline);box-shadow:var(--shadow)}
+    body{
+      margin:0;background:var(--bg);color:var(--fg);
+      font:14px/1.55 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--brand); text-decoration:none}
+    .container{max-width:1180px;margin-inline:auto;padding:28px 24px}
 
-    header{position:sticky;top:0;backdrop-filter:saturate(150%) blur(6px);background:linear-gradient(180deg, color-mix(in oklab,var(--bg) 92%, transparent), transparent);z-index:10;max-width:1160px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--outline)}
-    h1{margin:0 0 6px;font-size:32px;font-weight:800;letter-spacing:.2px}
-    header p{margin:0;color:var(--muted)}
-    .topmeta{display:flex;flex-direction:column}
-    .themeToggle{appearance:none;border:1px solid var(--outline);background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;padding:8px 10px;border-radius:999px;cursor:pointer;line-height:1}
-    .themeToggle span{display:inline-block;font-size:18px;vertical-align:middle}
-    main{max-width:1160px;margin:0 auto;padding:12px 20px 40px;display:grid;grid-template-columns:1.1fr .9fr;gap:20px}
-    @media (max-width:920px){ main{grid-template-columns:1fr;}}
-    .card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid var(--outline);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
-    .card h2{margin:4px 0 14px;font-size:18px}
-    .row{display:flex;gap:var(--gap);align-items:center;flex-wrap:wrap}
-    .toolbar{margin-bottom:var(--gap)}
-    .grid{display:grid;gap:var(--gap);grid-template-columns:repeat(2,minmax(180px,1fr))}
-    @media (max-width:720px){.grid{grid-template-columns:1fr}}
-    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
-    select{width:100%;padding:11px 12px;background:var(--card);color:var(--text);border:1px solid var(--outline);border-radius:10px}
-    .output{margin-top:12px;font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--codeBg);color:var(--codeText);border:1px solid var(--outline);border-radius:12px;padding:16px;min-height:64px;white-space:pre-wrap}
-    .btn{appearance:none;border:1px solid var(--outline);background:linear-gradient(180deg, var(--card), color-mix(in oklab, var(--card) 80%, black));color:var(--text);padding:10px 16px;border-radius:999px;font-weight:700;cursor:pointer}
-    .btn.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#081020}
-    .btn.ghost{background:transparent}
-    .btn:disabled{opacity:.55;cursor:not-allowed}
-    .pill{background:var(--card);border:1px solid var(--outline);border-radius:999px;padding:8px 10px;color:var(--muted);font-size:12px}
-    footer{max-width:1160px;margin:0 auto 40px;padding:0 20px;color:var(--muted);font-size:12px}
-    .divider{height:1px;background:var(--outline);margin:12px 0}
-
-    /* ===== Values panel readability ===== */
-    .param{margin:10px 0 14px}
-    .param summary{cursor:pointer;user-select:none;font-size:14px;color:var(--text);padding:8px 10px;border-radius:10px;border:1px solid var(--outline);background:var(--card)}
-    .param[open] summary{border-color:var(--accent)}
-    .chips{display:grid;grid-template-columns:repeat(2,minmax(160px,1fr));gap:10px;margin-top:10px}
-    @media (max-width:720px){.chips{grid-template-columns:1fr}}
-    .chip{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px dashed var(--outline);border-radius:12px;padding:10px 12px;cursor:pointer;user-select:none;transition:transform .05s ease,border-color .2s ease}
-    .chip:hover{border-color:var(--accent)}
-    .chip:active{transform:scale(.99)}
-    .chip .label{font-size:13px}
-    .chip .code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--muted)}
-    .chip:focus-visible{outline:var(--focus);outline-offset:2px}
-
-    /* ===== Toast (copy) ===== */
-    .toast{position:fixed;left:24px;bottom:24px;background:var(--card);border:1px solid var(--outline);color:var(--text);padding:10px 14px;border-radius:12px;opacity:0;transform:translateY(8px) scale(.98);animation:toast 1.2s ease forwards}
-    @keyframes toast{0%{opacity:0;transform:translateY(8px) scale(.98)} 15%{opacity:1;transform:translateY(0) scale(1)} 85%{opacity:1} 100%{opacity:0;transform:translateY(8px) scale(.98)}}
-
-    /* Reduce-motion respect */
-    @media (prefers-reduced-motion: reduce){
-      *{transition:none !important}
-      .toast{animation:none;opacity:1}
+    /* Page header */
+    header.page{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    h1{margin:0;font-size:28px;font-weight:700;letter-spacing:.2px}
+    .topmeta p{margin:6px 0 0;color:var(--muted)}
+    .themeToggle{
+      border:1px solid var(--border); background:var(--card); color:var(--fg);
+      border-radius:12px; padding:10px 12px; cursor:pointer; box-shadow:var(--shadow)
     }
 
-    /* ===== Recents ===== */
-    .recents{margin-top:12px}
-    .recents h3{margin:0 0 8px;font-size:13px;color:var(--muted)}
-    .recent-list{display:flex;flex-wrap:wrap;gap:8px}
-    .recent-pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--outline);background:var(--card);border-radius:999px;padding:6px 10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
-    .recent-pill button{border:none;background:transparent;cursor:pointer;color:var(--muted)}
-
-    /* ===== Focus states ===== */
-    :where(button, [role="button"], select, summary):focus-visible{outline:var(--focus);outline-offset:2px}
-    select.missing {
-      border-color: #e74c3c !important; /* red border */
-      box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.3);
+    /* Layout */
+    .grid{display:grid; grid-template-columns: 1.1fr .9fr; gap:18px}
+    .panel{
+      background:var(--card); border:1px solid var(--border);
+      border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden
     }
-    
-      /* Utility */
-    .muted{color: var(--muted)}
+    .panel header{
+      display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid var(--border); padding:14px 16px
+    }
+    .panel header h2{font-size:16px;margin:0;font-weight:600}
+
+    .panel main{padding:16px}
+
+    /* Left form */
+    .row{display:grid; grid-template-columns: 220px 1fr; gap:12px; align-items:center; margin-bottom:12px}
+    .label{display:flex; flex-direction:column; gap:6px}
+    .label small{color:var(--muted)}
+    .select{display:flex; gap:8px; align-items:center; width:100%}
+    select, input[type="url"]{
+      appearance:none; width:100%;
+      background:var(--card-2); color:var(--fg);
+      border:1px solid var(--border); border-radius:12px; padding:10px 12px;
+      transition:border-color .15s ease, box-shadow .15s ease
+    }
+    select:focus,input[type="url"]:focus{outline:var(--focus)}
+    select.missing{border-color:var(--danger)!important; box-shadow:0 0 0 2px color-mix(in srgb, var(--danger), transparent 70%)}
+
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid var(--border); border-radius:999px; background:var(--pill);
+      padding:4px 10px; font-size:12px; color:var(--muted)
+    }
+    .btn{
+      border:1px solid var(--border); background:var(--pill); color:var(--fg);
+      border-radius:999px; padding:8px 14px; cursor:pointer
+    }
+    .btn.primary{
+      background:var(--brand); border-color:transparent; color:#fff; font-weight:600
+    }
+    .btn.clear{background:transparent}
+    .btn[disabled]{opacity:.55; cursor:not-allowed}
+
+    /* Output block + status */
+    .out{display:flex; flex-direction:column; gap:10px; margin-top:10px}
+    .out pre{
+      background:#0a0f1a; color:#e6edf3;
+      border:1px dashed color-mix(in srgb, #ffffff, transparent 85%);
+      border-radius:14px; padding:14px; min-height:68px; display:flex; align-items:center;
+      font-family:ui-monospace, Menlo, Consolas, monospace; font-size:13px; letter-spacing:.25px
+    }
+    .copybar{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .pill{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:6px 10px; border:1px solid var(--border); border-radius:999px; background:var(--pill)
+    }
+    .pill b{font-size:12px}
+    .pill.ok{border-color:color-mix(in srgb, var(--success), transparent 70%); color:var(--success); background:color-mix(in srgb, var(--success), transparent 88%)}
+    .pill.warn{border-color:color-mix(in srgb, var(--danger), transparent 70%); color:#ef9a9a; background:color-mix(in srgb, var(--danger), transparent 90%)}
+
+    /* Recents */
+    .recent{margin-top:14px}
+    .recent h3{margin:8px 0 8px; font-size:13px; color:var(--muted)}
+    .recent-list{display:flex; flex-wrap:wrap; gap:8px}
+    .recent-pill{
+      display:inline-flex; align-items:center; gap:8px; padding:6px 10px;
+      border:1px solid var(--border); border-radius:999px; background:var(--pill)
+    }
+    .recent-pill code{
+      background:var(--card-2); border:1px solid var(--border); border-radius:8px; padding:2px 6px;
+      font-family:ui-monospace, Menlo, Consolas, monospace; font-size:12px
+    }
+    .recent-pill button{border:none; background:transparent; cursor:pointer; color:var(--muted)}
+
+    /* Right panel (accordion-like details per group) */
+    details{border:1px solid var(--border); border-radius:12px; background:var(--card-2)}
+    details+details{margin-top:10px}
+    details > summary{cursor:pointer; list-style:none; padding:10px 12px; font-weight:500}
+    details[open] > summary{border-bottom:1px solid var(--border); background:color-mix(in srgb, var(--card), var(--pill) 50%)}
+    .kvs{display:flex; flex-direction:column; gap:8px; padding:10px 12px}
+    .kv{display:grid; grid-template-columns: 1fr 1fr; gap:8px}
+    .kv code{
+      background:var(--card); border:1px solid var(--border); border-radius:8px; padding:4px 6px;
+      font-family:ui-monospace, Menlo, Consolas, monospace; font-size:12px
+    }
+
+    /* Misc */
+    .toast{position:fixed; inset:auto 16px 16px auto; background:var(--card); border:1px solid var(--border);
+      border-radius:12px; padding:8px 10px; color:var(--fg); box-shadow:var(--shadow)}
+    .skip{position:absolute; inset:auto auto auto -9999px}
+    .skip:focus{inset:10px auto auto 10px; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:6px 10px}
+    pre{white-space:pre-wrap; word-break:break-word}
+    .footer small{color:var(--muted)}
+    .copyright{color:var(--muted); font-size:12px; margin-left:2px}
+
+    /* Responsive tweaks */
+    @media (max-width: 1100px){
+      .grid{grid-template-columns:1fr; gap:14px}
+    }
+    @media (max-width: 720px){
+      header.page{flex-direction:column; align-items:flex-start; gap:10px}
+      .row{grid-template-columns:1fr; gap:8px}
+      .panel main{padding:14px}
+      .panel header{padding:12px 14px}
+      .container{padding:22px 16px}
+    }
+    @media (prefers-reduced-motion:no-preference){
+      .panel, .themeToggle, select, input[type="url"], .btn{transition:box-shadow .2s ease, transform .05s ease}
+      .btn:active{transform:translateY(1px)}
+      select:hover, .themeToggle:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+    }
+
+
+/* Increased vertical space between sections inside panels */
+.panel main h2, 
+.panel main h3, 
+.panel main header {
+  margin-top: 22px !important; /* ← increase/decrease this for more/less space */
+}
+
+.panel main .row {
+  margin-top: 6px;   /* space above each row */
+  margin-bottom: 14px; /* space below each row */
+}
+
+
+/* Add more vertical space between generator sections */
+.pair {
+  margin-bottom: 32px;
+}
+#pairs {
+  margin-top: -22px; /* adjust this number as needed */
+}
+
   </style>
 </head>
 <body>
   <a class="skip" href="#main">Skip to main content</a>
-  <header>
+
+  <header class="page container">
     <div class="topmeta">
-      <h1>Asset Name Generator</h1>
-      <p>Build consistent asset names from a documented naming convention.</p>
+      <h1>[DM Ops] Name Generator</h1>
+      <p>Build consistent names for Campaigns, Ad Groups, and Assets based on the standardized Naming Convention. To add or edit parameters/values contact DM Ops.</p>
     </div>
-    <button id="themeBtn" class="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme"><span id="themeIcon">🌙</span></button>
+    <button id="themeBtn" class="themeToggle" type="button" aria-label="Toggle theme">🌓</button>
   </header>
 
-  <main id="main">
-    <!-- Left: Generator -->
-    <section class="card" id="genPanel" aria-labelledby="genHeading">
-      <h2 id="genHeading">Generator</h2>
-      <div class="divider" role="presentation"></div>
-      <div class="row toolbar" style="justify-content:space-between">
-        <span class="pill" aria-live="polite" id="reqNote">All fields required</span>
-        <div class="row" style="gap:8px">
-          <button id="resetBtn" class="btn" type="button">Clear</button>
-        </div>
-      </div>
-      <div class="grid" id="fields"></div>
-
-      <div class="output" id="output" aria-live="polite" aria-atomic="true" role="status">Select values to generate…</div>
-      <div class="row" style="margin-top:8px; gap:10px">
-        <button id="copyBtn" class="btn primary" type="button" disabled aria-describedby="validity">Copy</button>
-        <span class="pill" id="validity" aria-live="polite">Incomplete</span>
-      </div>
-
-      <!-- Recent names memory -->
-      <section class="recents" id="recents" aria-label="Recent names"></section>
-    </section>
-
-    <!-- Right: Convention / Values -->
-    <section class="card" aria-labelledby="valuesHeading">
-      <h2 id="valuesHeading">Naming Convention</h2>
-      <div class="row toolbar" style="justify-content:space-between">
-        <div>
-          <label>Current source</label>
-         <div class="pill" id="sourcePill">Embedded JSON</div>
-        </div>
-      </div>
-
-      <div id="valuesList" style="margin-top:10px"></div>
-    </section>
+  <main id="main" class="container">
+    <div id="pairs"></div>
   </main>
 
-  <footer>© <span id="year"></span> Marketing Ops</footer>
-
-  <noscript>
-    <div style="max-width:1160px;margin:16px auto;padding:12px 20px">
-      This tool requires JavaScript enabled to generate names and copy values.
+  <footer class="container" style="margin-top:16px">
+    <div class="footer">
+      <small class="copyright">© 2025 DM Marketing Ops</small>
     </div>
-  </noscript>
+  </footer>
 
   <script>
-    // === Schema (embedded) — edit this object when you need to update ===
-    const FALLBACK_SCHEMA = {
-      order:["Campaign category","Campaign Name","Persona","Landing Page Type","LP Content Name","Creative Name","Campaign Content","Asset Format","Asset SubType","Language"],
-      delimiter:"_", case:"lower",
-      fields:{
-        "Campaign category":[{label:"Brand",code:"brand"},{label:"Main",code:"main"},{label:"Product",code:"product"}],
-        "Campaign Name":[{label:"Make It",code:"makeit"},{label:"Gaby",code:"gaby"},{label:"SMB",code:"smb"},{label:"Rapid AI",code:"rapidai"},{label:"PFC",code:"pfc"},{label:"PFC edgy",code:"pfcedgy"},{label:"Toolkits",code:"toolkits"}],
-        "Persona":[{label:"Full-Stack Marketer",code:"fsm"},{label:"SEO",code:"seo"},{label:"FSM-SEO",code:"fsm-seo"},{label:"SMB-FSM",code:"smb-fsm"},{label:"SMB",code:"smb"},{label:"All-psn",code:"all-psn"}],
-        "Landing Page Type":[{label:"Blogpost",code:"bp"},{label:"LP",code:"lp"},{label:"SS",code:"ss"},{label:"Webinar",code:"web"},{label:"Event",code:"evt"},{label:"WP",code:"wp"},{label:"Academy",code:"acd"},{label:"Ebook",code:"ebook"},{label:"Case Study",code:"cs"}],
-        "LP Content Name":[{label:"solution-all-in-one",code:"solution-all-in-one"},{label:"product-seo-challenges",code:"product-seo-challenges"},{label:"traffic-analytics-7-new",code:"traffic-analytics-7-new"},{label:"product-content-marketing",code:"product-content-marketing"},{label:"product-free-trial",code:"product-free-trial"},{label:"product-instant-market-insights-1",code:"product-instant-market-insights-1"},{label:"product-all-in-one-local-marketing-solution-new",code:"product-all-in-one-local-marketing-solution-new"},{label:"product-keyword-magic-tool-7",code:"product-keyword-magic-tool-7"},{label:"product-semrush-plans-comparison",code:"product-semrush-plans-comparison"},{label:"creating-reports-with-semrush-report-builder",code:"creating-reports-with-semrush-report-builder"},{label:"advanced-google-ads-tips-skyrocket-your-profit",code:"advanced-google-ads-tips-skyrocket-your-profit"}],
-        "Creative Name":[{label:"Competitor Research",code:"competitorresearch"},{label:"Fix Site SEO",code:"fixsiteseo"},{label:"JBTD Discover Winning Keywords",code:"JTBD Discover Winning Keywords"},{label:"All SEO One Tab",code:"allseoonetab"},{label:"Want to Know",code:"wanttoknow"},{label:"SEO Checklist",code:"seochecklist"},{label:"Discover Exact Keywords",code:"discoverexactkeywords"},{label:"Fix Technical SEO",code:"fixtechnicalseo"},{label:"Algorithm Changed",code:"algorithmchanged"},{label:"Competitors Know Your Strategy",code:"competitorsknowyourstrategy"},{label:"12 Tabs Open",code:"12tabsopen"},{label:"Search Moves",code:"searchmoves"},{label:"404 Problems",code:"404problems"},{label:"Hero Corner Shop",code:"herocornershop"},{label:"sssmileworks",code:"sssmileworks"},{label:"Hero Fancy Limousines",code:"herofancylimousines"},{label:"sssmokies",code:"sssmokies"},{label:"JTBD Freetrial",code:"jtbdfreetrial"},{label:"JTBD Rankin Year",code:"jtbdrankinyear"},{label:"Not to Cry",code:"nottocry"},{label:"Too Many Things",code:"toomanythings"},{label:"Create Content for People",code:"createcontentforpeople"},{label:"JTBD Free Trial Recolored",code:"jtbdfreetrialrecolored"},{label:"Your Agency",code:"youragency"},{label:"Explorer",code:"explorer"},{label:"Hero Corporate Ladder",code:"herocorporateladder"},{label:"New to SEO",code:"newtoseo"},{label:"Improve SEO Performance",code:"improveseoperformance"},{label:"Starting SEO Journey",code:"startingseojourney"},{label:"Make Business nr1",code:"makebusinessnr1"},{label:"succeedonline",code:"Succeed Online"},{label:"Comicsilentrating",code:"comicsilentrating"},{label:"Better SEO",code:"betterseo"},{label:"HJTBD Improve Blogpost",code:"hjtbdimproveblogpost"},{label:"Rank Higher Content",code:"rankhighercontent"},{label:"Content in One",code:"contentinone"},{label:"Create SEO Friendly Content in One Place",code:"createseofriendlycontentinoneplace"},{label:"Simlpifysocialmedia",code:"simlpifysocialmedia"},{label:"Checklist",code:"checklist"},{label:"Fix issues new",code:"fixissuesnew"},{label:"UGC Rank High",code:"ugcrankhigh"},{label:"Grow Business",code:"growbusiness"},{label:"Investigate Competitors",code:"investigatecompetitors"},{label:"HJTBDfindpopularproducts",code:"hjtbdfindpopularproducts"},{label:"alltoolsinone",code:"alltoolsinone"},{label:"UGCdrivetraffic",code:"ugcdrivetraffic"},{label:"comicdontdothis",code:"comicdontdothis"},{label:"reportresults",code:"reportresults"},{label:"quotehighintent",code:"quotehighintent"},{label:"404highintent",code:"404highintent"},{label:"stuckhighintent",code:"stuckhighintent"},{label:"everythingyouneed",code:"everythingyouneed"},{label:"SEOChallengesYTComponent",code:"seochallengesytcomponent"},{label:"SEOChallengesOptimizedCreatives",code:"seochallengesoptimizedcreatives"},{label:"competitorsspikedhighintent",code:"competitorsspikedhighintent"},{label:"competitorsoutpacinghighintent",code:"competitorsoutpacinghighintent"},{label:"analyzerival",code:"analyzerival"},{label:"analyzecompetitor",code:"analyzecompetitor"},{label:"CompetitiveResearchYTComponent",code:"competitiveresearchytcomponent"},{label:"grabaudiencesattention",code:"grabaudiencesattention"},{label:"SEOWritingAssistant5YTComponent",code:"seowritingassistant5ytcomponent"},{label:"Swamped",code:"swamped"},{label:"whichtask",code:"whichtask"},{label:"EasySolutionsOptimizedCreatives",code:"easysolutionsoptimizedcreatives"},{label:"digitalinsighttrends",code:"digitalinsighttrends"},{label:"trafficinsights",code:"trafficinsights"},{label:"sslibereatnew",code:"sslibereatnew"},{label:"revampmarketingstrategynew",code:"revampmarketingstrategynew"},{label:"ssmorningside",code:"ssmorningside"},{label:"jtbdAImagic",code:"jtbdaimagic"},{label:"findkeywords",code:"findkeywords"},{label:"ugc3reasons",code:"ugc3reasons"},{label:"UGCgrowagency",code:"ugcgrowagency"},{label:"sslibereatagency",code:"sslibereatagency"},{label:"pitchprospects",code:"pitchprospects"},{label:"ssuhs",code:"ssuhs"},{label:"whitelabelandautomatedreporting",code:"whitelabelandautomatedreporting"},{label:"driveROIwiththerightkeywords",code:"driveroiwiththerightkeywords"},{label:"tbc",code:"tbc"},{label:"ugcdailydatajen",code:"ugcdailydatajen"},{label:"rankhigh",code:"rankhigh"},{label:"getlocalcustomers",code:"getlocalcustomers"},{label:"keywordresearch",code:"keywordresearch"},{label:"dissect",code:"dissect"},{label:"boostproductivity",code:"boostproductivity"},{label:"jusrregistered",code:"jusrregistered"},{label:"inc",code:"inc"}],
-        "Campaign Content":[{label:"SEO Toolkit",code:"seotoolkit"},{label:"Advertising Toolkit",code:"advertisingtoolkit"},{label:"Traffic Toolkit",code:"traffictoolkit"},{label:"Content Toolkit",code:"contenttoolkit"},{label:"Social Toolkit",code:"socialtoolkit"},{label:"Local Toolkit",code:"localtoolkit"},{label:"AI Toolkit",code:"aitoolkit"},{label:"PR Toolkit",code:"prtoolkit"},{label:"All-in-One-Toolkit",code:"allinonetoolkit"},{label:"Enterprise",code:"enterprise"}],
-        "Asset Format":[{label:"HTML 5 Banner",code:"bnr-html5"},{label:"Animated Banner",code:"bnr-anim"},{label:"Carousel",code:"carousel"},{label:"Dynamic Remarketing",code:"dynrem"},{label:"In Mail",code:"inmail"},{label:"Image",code:"image"},{label:"Video 10s",code:"video10s"},{label:"Video 15s",code:"video15s"},{label:"Video 30s",code:"video30s"},{label:"Video over 30s",code:"videoover30s"}],
-        "Asset SubType":[{label:"AIJTBD",code:"aijtbd"},{label:"AnimatedJTBD",code:"animatedjtbd"},{label:"ShootJTBD",code:"shootjtbd"},{label:"AIUGC",code:"aiugc"},{label:"ShootVSC",code:"shootvsc"},{label:"Human",code:"human"},{label:"Human+UI",code:"humanui"},{label:"UI",code:"ui"},{label:"Quote",code:"quote"},{label:"ShootSS",code:"shootss"},{label:"Checklist",code:"checklist"},{label:"ProductWalkthrough",code:"productwalkthrough"}],
-        "Language":[{label:"English",code:"en"},{label:"Spanish",code:"es"}]
-      }
-    };
+  const THEME_KEY='ng_theme_v1';
+  const SCHEMA_KEY='ng_schema_v1';
 
-    let NAMING_SCHEMA = FALLBACK_SCHEMA;
-    const state = {};
+  // Embedded default master (fallback)
+  const DEFAULT_MASTER = {"generators": [{"id": "campaign", "title": "Campaign Name", "order": ["Channel", "User stage", "Platform", "Publisher", "CampaignType", "Region", "Language"], "delimiter": "_", "case": "lower", "optional": ["Language"], "fields": {"Channel": [{"label": "Display", "code": "dspl"}, {"label": "Paid Video", "code": "pv"}, {"label": "Paid Social", "code": "pdsc"}, {"label": "Paid Search NonBrand", "code": "srch"}, {"label": "Paid Search Brand", "code": "srch_semrush"}], "User stage": [{"label": "Engage", "code": "engage"}, {"label": "Convert", "code": "convert"}, {"label": "Attract", "code": "attract"}, {"label": "Branding", "code": "branding"}], "Platform": [{"label": "GDN", "code": "gdn"}, {"label": "DV360", "code": "dv"}, {"label": "Yahoo", "code": "yahoodsp"}, {"label": "Youtube", "code": "yt"}, {"label": "Meta", "code": "meta"}, {"label": "LinkedIn", "code": "linkedin"}, {"label": "Twitch", "code": "twitch"}, {"label": "Reddit", "code": "reddit"}, {"label": "Google Ads", "code": "googleads"}, {"label": "bing", "code": "bing"}, {"label": "tiktok", "code": "tiktok"}], "Publisher": [{"label": "Adroll", "code": "adroll"}, {"label": "Linkedin", "code": "linkedin"}, {"label": "Reddit", "code": "reddit"}, {"label": "Criteo", "code": "criteo"}, {"label": "Moloco", "code": "moloco"}, {"label": "Bing", "code": "bing"}], "CampaignType": [{"label": "dynamic ads", "code": "dyn"}, {"label": "Discovery Ads", "code": "dsc"}, {"label": "Performance Max", "code": "pmax"}, {"label": "Connected TV", "code": "ctv"}, {"label": "Audio", "code": "audio"}, {"label": "VideoView", "code": "videoview"}, {"label": "VideoReach", "code": "videoreach"}, {"label": "CPV", "code": "cpv"}, {"label": "VAC", "code": "vac"}, {"label": "DemandGen", "code": "demandgen"}, {"label": "Podcast", "code": "podcast"}], "Region": [{"label": "Core", "code": "Core"}, {"label": "Core1", "code": "Core1"}, {"label": "Core2", "code": "Core2"}, {"label": "ROW", "code": "ROW"}, {"label": "ROWT1", "code": "ROWT1"}, {"label": "ROWT2", "code": "ROWT2"}, {"label": "Asia", "code": "Asia"}, {"label": "Nordics", "code": "Nordics"}, {"label": "DE", "code": "DE"}, {"label": "ES", "code": "ES"}, {"label": "FR", "code": "FR"}, {"label": "IT", "code": "IT"}, {"label": "US", "code": "US"}, {"label": "IN", "code": "IN"}, {"label": "PT", "code": "PT"}, {"label": "LATAM", "code": "LATAM"}, {"label": "BR", "code": "BR"}, {"label": "UY", "code": "UY"}, {"label": "AR", "code": "AR"}, {"label": "PE", "code": "PE"}, {"label": "ANZ", "code": "ANZ"}, {"label": "DACH", "code": "DACH"}], "Language": [{"label": "English", "code": "EN"}, {"label": "Spanish", "code": "ES"}, {"label": "Portuguese", "code": "PT"}, {"label": "Italian", "code": "IT"}, {"label": "German", "code": "DE"}, {"label": "French", "code": "FR"}, {"label": "Japanese", "code": "JA"}, {"label": "Spanish Latam", "code": "ES_Latam"}]}}, {"id": "adgroup", "title": "Ad Group Name", "order": ["Campaign Category", "Campaign Name", "Campaign Objective", "Company Size", "Audience", "Persona", "Campaign Content"], "delimiter": "_", "case": "lower", "fields": {"Campaign Category": [{"label": "Brand", "code": "brand"}, {"label": "Main Funnel", "code": "main"}, {"label": "Product", "code": "product"}], "Campaign Name": [{"label": "Make It", "code": "makeit"}, {"label": "Gaby", "code": "gaby"}, {"label": "SMB", "code": "smb"}, {"label": "Rapid AI", "code": "rapidai"}, {"label": "PFC", "code": "pfc"}, {"label": "PFC Edgy", "code": "pfcedgy"}, {"label": "Toolkits", "code": "toolkits"}], "Campaign Objective": [{"label": "Engagement", "code": "engagement"}, {"label": "Lead", "code": "lead"}, {"label": "Traffic", "code": "traffic"}, {"label": "Conversions", "code": "conversions"}], "Company Size": [{"label": "SMB", "code": "smb-size"}, {"label": "Mid-market", "code": "mid-size"}, {"label": "Enterprise", "code": "enterprise-size"}], "Audience": [{"label": "Interest", "code": "interest"}, {"label": "Keywords", "code": "kws"}, {"label": "Inmarket", "code": "inmarket"}, {"label": "Custom Interest", "code": "custom-interest"}, {"label": "Combined", "code": "combined"}, {"label": "Lookalike", "code": "lookalike"}, {"label": "Visitors / Engaged", "code": "visitors"}, {"label": "Registered / Convert", "code": "reg"}, {"label": "High Intent", "code": "high-intent"}, {"label": "Projects+Trials", "code": "project-trials"}], "Persona": [{"label": "Full-Stack Marketer", "code": "fsm"}, {"label": "SEO Professional", "code": "seo"}, {"label": "Full-stack marketer + SEO professional", "code": "fsm-seo"}, {"label": "SMBOwner+Fullstack marketer", "code": "smb-fsm"}, {"label": "SMBOwner", "code": "smb-owner"}, {"label": "AllPersona", "code": "all-psn"}], "Campaign Content": [{"label": "SEO Toolkit", "code": "SeoToolkit"}, {"label": "Advertiser Toolkit", "code": "AdvertisingToolkit"}, {"label": "Traffic Toolkit", "code": "TrafficToolkit"}, {"label": "Content Toolkit", "code": "ContentToolkit"}, {"label": "Social Toolkit", "code": "SocialToolkit"}, {"label": "Local Toolkit", "code": "LocalToolkit"}, {"label": "AI Toolkit", "code": "AIToolkit"}, {"label": "PR Toolkit", "code": "PRToolkit"}, {"label": "All in One Toolkit", "code": "Allinonetoolkit"}, {"label": "Enterprise", "code": "Enterprise"}]}}, {"id": "asset", "title": "Asset Name", "order": ["Campaign Category", "Campaign Name", "Persona", "Landing Page Type", "LP Content Name", "Creative Name", "Campaign Content", "Asset Format", "Asset SubType", "Language"], "delimiter": "_", "case": "lower", "fields": {"Campaign Category": [{"label": "Brand", "code": "brand"}, {"label": "Main", "code": "main"}, {"label": "Product", "code": "product"}], "Campaign Name": [{"label": "Make It", "code": "makeit"}, {"label": "Gaby", "code": "gaby"}, {"label": "SMB", "code": "smb"}, {"label": "Rapid AI", "code": "rapidai"}, {"label": "PFC", "code": "pfc"}, {"label": "PFC edgy", "code": "pfcedgy"}, {"label": "Toolkits", "code": "toolkits"}], "Persona": [{"label": "Full-Stack Marketer", "code": "fsm"}, {"label": "SEO", "code": "seo"}, {"label": "Full-Stack Marketer - SEO", "code": "fsm-seo"}, {"label": "SMB - Full Stack Marketer", "code": "smb-fsm"}, {"label": "SMB", "code": "smb"}, {"label": "All-PSN", "code": "all-psn"}], "Landing Page Type": [{"label": "Blogpost", "code": "bp"}, {"label": "LP", "code": "lp"}, {"label": "SS", "code": "ss"}, {"label": "Webinar", "code": "web"}, {"label": "Event", "code": "evt"}, {"label": "WP", "code": "wp"}, {"label": "Academy", "code": "acd"}, {"label": "Ebook", "code": "ebook"}, {"label": "Case Study", "code": "cs"}], "LP Content Name": [{"label": "solution-all-in-one", "code": "solution-all-in-one"}, {"label": "product-seo-challenges", "code": "product-seo-challenges"}, {"label": "traffic-analytics-7-new", "code": "traffic-analytics-7-new"}, {"label": "product-content-marketing", "code": "product-content-marketing"}, {"label": "product-free-trial", "code": "product-free-trial"}, {"label": "product-instant-market-insights-1", "code": "product-instant-market-insights-1"}, {"label": "product-all-in-one-local-marketing-solution-new", "code": "product-all-in-one-local-marketing-solution-new"}, {"label": "product-keyword-magic-tool-7", "code": "product-keyword-magic-tool-7"}, {"label": "product-semrush-plans-comparison", "code": "product-semrush-plans-comparison"}, {"label": "creating-reports-with-semrush-report-builder", "code": "creating-reports-with-semrush-report-builder"}, {"label": "advanced-google-ads-tips-skyrocket-your-profit", "code": "advanced-google-ads-tips-skyrocket-your-profit"}], "Creative Name": [{"label": "competitorresearch", "code": "competitorresearch"}, {"label": "fixsiteseo", "code": "fixsiteseo"}, {"label": "jtbddiscoverwinningkeywords", "code": "jtbddiscoverwinningkeywords"}, {"label": "allseoonetab", "code": "allseoonetab"}, {"label": "wanttoknow", "code": "wanttoknow"}, {"label": "seochecklist", "code": "seochecklist"}, {"label": "discoverexactkeywords", "code": "discoverexactkeywords"}, {"label": "fixtechnicalseo", "code": "fixtechnicalseo"}, {"label": "algorithmchanged", "code": "algorithmchanged"}, {"label": "competitorsknowyourstrategy", "code": "competitorsknowyourstrategy"}, {"label": "12tabsopen", "code": "12tabsopen"}, {"label": "searchmoves", "code": "searchmoves"}, {"label": "404problems", "code": "404problems"}, {"label": "herocornershop", "code": "herocornershop"}, {"label": "sssmileworks", "code": "sssmileworks"}, {"label": "herofancylimousines", "code": "herofancylimousines"}, {"label": "sssmokies", "code": "sssmokies"}, {"label": "jtbdfreetrial", "code": "jtbdfreetrial"}, {"label": "jtbdrankinyear", "code": "jtbdrankinyear"}, {"label": "nottocry", "code": "nottocry"}, {"label": "toomanythings", "code": "toomanythings"}, {"label": "createcontentforpeople", "code": "createcontentforpeople"}, {"label": "jtbdfreetrialrecolored", "code": "jtbdfreetrialrecolored"}, {"label": "youragency", "code": "youragency"}, {"label": "explorer", "code": "explorer"}, {"label": "herocorporateladder", "code": "herocorporateladder"}, {"label": "newtoseo", "code": "newtoseo"}, {"label": "improveseoperformance", "code": "improveseoperformance"}, {"label": "startingseojourney", "code": "startingseojourney"}, {"label": "makebusinessnr1", "code": "makebusinessnr1"}, {"label": "succeedonline", "code": "succeedonline"}, {"label": "comicsilentrating", "code": "comicsilentrating"}, {"label": "betterseo", "code": "betterseo"}, {"label": "HJTBDImproveblogpost", "code": "hjtbdimproveblogpost"}, {"label": "rankhighercontent", "code": "rankhighercontent"}, {"label": "contentinone", "code": "contentinone"}, {"label": "createseofriendlycontentinoneplace", "code": "createseofriendlycontentinoneplace"}, {"label": "simlpifysocialmedia", "code": "simlpifysocialmedia"}, {"label": "checklist", "code": "checklist"}, {"label": "fixissuesnew", "code": "fixissuesnew"}, {"label": "UGCrankhigh", "code": "ugcrankhigh"}, {"label": "growbusiness", "code": "growbusiness"}, {"label": "investigatecompetitors", "code": "investigatecompetitors"}, {"label": "HJTBDfindpopularproducts", "code": "hjtbdfindpopularproducts"}, {"label": "alltoolsinone", "code": "alltoolsinone"}, {"label": "UGCdrivetraffic", "code": "ugcdrivetraffic"}, {"label": "comicdontdothis", "code": "comicdontdothis"}, {"label": "reportresults", "code": "reportresults"}, {"label": "quotehighintent", "code": "quotehighintent"}, {"label": "404highintent", "code": "404highintent"}, {"label": "stuckhighintent", "code": "stuckhighintent"}, {"label": "everythingyouneed", "code": "everythingyouneed"}, {"label": "SEOChallengesYTComponent", "code": "seochallengesytcomponent"}, {"label": "SEOChallengesOptimizedCreatives", "code": "seochallengesoptimizedcreatives"}, {"label": "competitorsspikedhighintent", "code": "competitorsspikedhighintent"}, {"label": "competitorsoutpacinghighintent", "code": "competitorsoutpacinghighintent"}, {"label": "analyzerival", "code": "analyzerival"}, {"label": "analyzecompetitor", "code": "analyzecompetitor"}, {"label": "CompetitiveResearchYTComponent", "code": "competitiveresearchytcomponent"}, {"label": "grabaudiencesattention", "code": "grabaudiencesattention"}, {"label": "SEOWritingAssistant5YTComponent", "code": "seowritingassistant5ytcomponent"}, {"label": "Swamped", "code": "swamped"}, {"label": "whichtask", "code": "whichtask"}, {"label": "EasySolutionsOptimizedCreatives", "code": "easysolutionsoptimizedcreatives"}, {"label": "digitalinsighttrends", "code": "digitalinsighttrends"}, {"label": "trafficinsights", "code": "trafficinsights"}, {"label": "sslibereatnew", "code": "sslibereatnew"}, {"label": "revampmarketingstrategynew", "code": "revampmarketingstrategynew"}, {"label": "ssmorningside", "code": "ssmorningside"}, {"label": "jtbdAImagic", "code": "jtbdaimagic"}, {"label": "findkeywords", "code": "findkeywords"}, {"label": "ugc3reasons", "code": "ugc3reasons"}, {"label": "UGCgrowagency", "code": "ugcgrowagency"}, {"label": "sslibereatagency", "code": "sslibereatagency"}, {"label": "pitchprospects", "code": "pitchprospects"}, {"label": "ssuhs", "code": "ssuhs"}, {"label": "whitelabelandautomatedreporting", "code": "whitelabelandautomatedreporting"}, {"label": "driveROIwiththerightkeywords", "code": "driveroiwiththerightkeywords"}, {"label": "tbc", "code": "tbc"}, {"label": "ugcdailydatajen", "code": "ugcdailydatajen"}, {"label": "rankhigh", "code": "rankhigh"}, {"label": "getlocalcustomers", "code": "getlocalcustomers"}, {"label": "keywordresearch", "code": "keywordresearch"}, {"label": "dissect", "code": "dissect"}, {"label": "boostproductivity", "code": "boostproductivity"}, {"label": "jusrregistered", "code": "jusrregistered"}, {"label": "inc", "code": "inc"}], "Campaign Content": [{"label": "Seo Toolkit", "code": "seotoolkit"}, {"label": "Advertising Toolkit", "code": "advertisingtoolkit"}, {"label": "Traffic Toolkit", "code": "traffictoolkit"}, {"label": "Content Toolkit", "code": "contenttoolkit"}, {"label": "Social Toolkit", "code": "socialtoolkit"}, {"label": "Local Toolkit", "code": "localtoolkit"}, {"label": "AI Toolkit", "code": "aitoolkit"}, {"label": "PR Toolkit", "code": "prtoolkit"}, {"label": "All-in-One Toolkit", "code": "allinonetoolkit"}, {"label": "Enterprise", "code": "enterprise"}], "Asset Format": [{"label": "HTML5 Banner", "code": "bnr-html5"}, {"label": "Animated Banner", "code": "bnr-anim"}, {"label": "Carousel", "code": "carousel"}, {"label": "Dynamic Remarketing", "code": "dynrem"}, {"label": "Inmail", "code": "inmail"}, {"label": "Image", "code": "image"}, {"label": "Video 10s", "code": "video10s"}, {"label": "Video 15s", "code": "video15s"}, {"label": "Video 30s", "code": "video30s"}, {"label": "Video over 30s", "code": "videoover30s"}], "Asset SubType": [{"label": "AIJTBD", "code": "aijtbd"}, {"label": "AnimatedJTBD", "code": "animatedjtbd"}, {"label": "ShootJTBD", "code": "shootjtbd"}, {"label": "AIUGC", "code": "aiugc"}, {"label": "ShootVSC", "code": "shootvsc"}, {"label": "Human", "code": "human"}, {"label": "Human+UI", "code": "humanui"}, {"label": "UI", "code": "ui"}, {"label": "Quote", "code": "quote"}, {"label": "ShootSS", "code": "shootss"}, {"label": "Checklist", "code": "checklist"}, {"label": "ProductWalkthrough", "code": "productwalkthrough"}], "Language": [{"label": "English", "code": "en"}, {"label": "Spanish", "code": "es"}, {"label": "French", "code": "fr"}, {"label": "German", "code": "de"}]}}]};
 
-    const fieldsEl = document.getElementById('fields');
-    const outputEl = document.getElementById('output');
-    const copyBtn = document.getElementById('copyBtn');
-    const copyNewBtn = document.getElementById('copyNewBtn');
-    const validity = document.getElementById('validity');
-    const recentsEl = document.getElementById('recents');
+  const themeBtn=document.getElementById('themeBtn');
+  function loadTheme(){
+    try{ const t=localStorage.getItem(THEME_KEY); if(t){document.documentElement.setAttribute('data-theme', t);} }catch(e){}
+  }
+  function setTheme(t){
+    document.documentElement.setAttribute('data-theme', t);
+    try{localStorage.setItem(THEME_KEY, t);}catch(e){}
+  }
+  themeBtn.addEventListener('click',()=>{
+    const cur=document.documentElement.getAttribute('data-theme')||'light';
+    setTheme(cur==='dark'?'light':'dark');
+  });
+  loadTheme();
 
-    // === Recents memory ===
-    const RECENTS_KEY = 'recentNames';
-    function getRecents(){
-      try{ return JSON.parse(localStorage.getItem(RECENTS_KEY)||'[]'); }catch(_){ return []; }
-    }
-    function setRecents(list){ localStorage.setItem(RECENTS_KEY, JSON.stringify(list.slice(0,5))); }
-    function addRecent(name){
-      const cur = getRecents();
-      const next = [name, ...cur.filter(n=>n!==name)].slice(0,5);
-      setRecents(next); renderRecents();
-    }
-    function clearRecents(){ setRecents([]); renderRecents(); }
+  let MASTER = DEFAULT_MASTER; // show something immediately
+  let SCHEMA_MODE = 'Embedded JSON';
+
+  function toast(msg){
+    const t=document.createElement('div');
+    t.className='toast'; t.setAttribute('role','status'); t.setAttribute('aria-live','polite');
+    t.textContent=msg; document.body.appendChild(t);
+    setTimeout(()=>t.remove(), 1200);
+  }
+
+  function byCase(str, c){
+    if(c==='lower') return (str||'').toLowerCase();
+    if(c==='upper') return (str||'').toUpperCase();
+    return str||'';
+  }
+
+  function renderConvention(panelRight, gen){
+    panelRight.innerHTML = '';
+    const main = document.createElement('main');
+
+    const groups = Object.entries(gen.fields || {});
+
+    groups.forEach(([group, arr])=>{
+      const d = document.createElement('details');
+      const s = document.createElement('summary'); s.textContent = group; d.appendChild(s);
+      const wrap = document.createElement('div'); wrap.className = 'kvs'; d.appendChild(wrap);
+
+      (arr || []).forEach(({label, code})=>{
+        const row = document.createElement('div'); row.className='kv';
+        const k = document.createElement('code'); k.textContent = label ?? 'label';
+        const v = document.createElement('code'); v.textContent = code ?? '';
+        row.appendChild(k); row.appendChild(v);
+        wrap.appendChild(row);
+      });
+
+      main.appendChild(d);
+    });
+
+    // Raw schema intentionally removed from UI per request.
+
+    panelRight.appendChild(main);
+  }
+
+  function renderPair(container, gen){
+    const pair = document.createElement('section'); pair.className='pair grid';
+
+    // LEFT: generator panel
+    const left = document.createElement('section'); left.className='panel';
+    const lh = document.createElement('header');
+    const h2 = document.createElement('h2'); 
+    if(gen.id === 'campaign'){h2.textContent = 'Campaign Name Generator';}
+    else if(gen.id === 'adgroup'){h2.textContent = 'Ad Group Name Generator';}
+    else if(gen.id === 'asset'){h2.textContent = 'Asset Name Generator';}
+    else {h2.textContent = 'Generator';} lh.appendChild(h2);
+    const leftControls = document.createElement('div'); leftControls.style.display='flex'; leftControls.style.gap='8px'; leftControls.style.alignItems='center';
+    const allReq = !(gen.optional && gen.optional.length);
+    const reqChip = document.createElement('span');
+    reqChip.className = 'badge';
+    reqChip.textContent = allReq ? 'All fields required' : `${gen.optional.length} optional`;
+    leftControls.appendChild(reqChip);
+    const clearBtnHead = document.createElement('button'); clearBtnHead.textContent='Clear'; clearBtnHead.className='btn clear'; leftControls.appendChild(clearBtnHead);
+    lh.appendChild(leftControls);
+    lh.style.justifyContent='space-between';
+    left.appendChild(lh);
+
+    const lm = document.createElement('main');
+
+    // controls
+    const controls = document.createElement('div'); controls.className='controls'; lm.appendChild(controls);
+
+    // state per generator
+    const state = {};  // field -> code
+    const required = new Set((gen.order||[]).filter(f=>!(gen.optional||[]).includes(f)));
+
+    (gen.order||[]).forEach(field=>{
+      const row = document.createElement('div'); row.className='row';
+
+      const label = document.createElement('div'); label.className='label';
+      const lab = document.createElement('label'); lab.textContent = field; lab.setAttribute('for', `${gen.id}_${field}`);
+      const hint = document.createElement('small'); if(!required.has(field)){ hint.textContent = 'Optional'; }
+      label.appendChild(lab); label.appendChild(hint);
+
+      const selWrap = document.createElement('div'); selWrap.className='select';
+      const sel = document.createElement('select'); sel.id = `${gen.id}_${field}`; sel.setAttribute('data-field', field);
+      const placeholder = document.createElement('option'); placeholder.value=''; placeholder.textContent='— choose —'; placeholder.disabled=true; placeholder.selected=true;
+      sel.appendChild(placeholder);
+      (gen.fields[field]||[]).forEach(o=>{
+        const opt = document.createElement('option'); opt.value=o.code; opt.textContent=o.label ?? o.code; sel.appendChild(opt);
+      });
+      selWrap.appendChild(sel);
+
+      row.appendChild(label); row.appendChild(selWrap);
+      controls.appendChild(row);
+
+      sel.addEventListener('change', e=>{
+        state[field] = e.target.value;
+        sel.classList.remove('missing');
+        compose();
+      });
+    });
+
+    // output
+    const outWrap = document.createElement('div'); outWrap.className='out';
+    const outPre = document.createElement('pre'); outPre.id = `${gen.id}_out`; outWrap.appendChild(outPre);
+
+    const copybar = document.createElement('div'); copybar.className='copybar';
+    const copyBtn = document.createElement('button'); copyBtn.textContent='Copy'; copyBtn.className='btn primary'; copybar.appendChild(copyBtn);
+    const statusPill = document.createElement('span'); statusPill.className='pill warn'; statusPill.innerHTML='<b>Select all fields</b>'; copybar.appendChild(statusPill);
+
+    outWrap.appendChild(copybar);
+    lm.appendChild(outWrap);
+
+    // recents
+    const recentWrap = document.createElement('div'); recentWrap.className='recent';
+    const h3 = document.createElement('h3'); h3.textContent='Recent outputs'; recentWrap.appendChild(h3);
+    const recentList = document.createElement('div'); recentList.className='recent-list'; recentList.id = `${gen.id}_recent`; recentWrap.appendChild(recentList);
+    lm.appendChild(recentWrap);
+
+    left.appendChild(lm);
+
+    // RIGHT: convention panel
+    const right = document.createElement('section'); right.className='panel';
+    const rh = document.createElement('header');
+    const rht = document.createElement('h2'); rht.textContent='Naming Convention'; rh.appendChild(rht);
+    const mode = document.createElement('span'); mode.className='badge'; mode.textContent = (SCHEMA_MODE==='Loaded'?'Remote JSON':SCHEMA_MODE); rh.appendChild(mode);
+    rh.style.justifyContent='space-between'; right.appendChild(rh);
+    
+// NEW: create a content container inside the right panel
+const rightContent = document.createElement('main');
+right.appendChild(rightContent);
+
+// UPDATED: only render into the content container (leaves header + badge intact)
+renderConvention(rightContent, gen);
+
+    // mount
+    pair.appendChild(left);
+    pair.appendChild(right);
+    container.appendChild(pair);
+
+    const RECENTS_KEY = `ng_recent_${gen.id}`;
+
     function renderRecents(){
-      const items = getRecents();
-      if(!items.length){ recentsEl.innerHTML=''; return; }
-      recentsEl.innerHTML = `
-        <h3>Recent names</h3>
-        <div class="recent-list">
-          ${items.map((n,i)=>`<span class="recent-pill" data-recent="${i}"><span>${n}</span><button type="button" title="Copy" aria-label="Copy recent ${i+1}">⧉</button></span>`).join('')}
-          <button class="btn ghost" id="clearRecentsBtn" type="button" title="Clear recent names">Clear</button>
-        </div>`;
+      recentList.innerHTML='';
+      try{
+        const raw = localStorage.getItem(RECENTS_KEY);
+        const arr = raw? JSON.parse(raw): [];
+        arr.forEach(v=>{
+          const pill=document.createElement('div'); pill.className='recent-pill';
+          const code=document.createElement('code'); code.textContent=v; pill.appendChild(code);
+          const btn=document.createElement('button'); btn.type='button'; btn.textContent='×'; btn.setAttribute('aria-label','remove');
+          btn.addEventListener('click',()=>{
+            const raw=localStorage.getItem(RECENTS_KEY);
+            const arr=raw? JSON.parse(raw): [];
+            const next=arr.filter(x=>x!==v);
+            localStorage.setItem(RECENTS_KEY, JSON.stringify(next));
+            renderRecents();
+          });
+          pill.appendChild(btn);
+          recentList.appendChild(pill);
+        });
+      }catch(e){}
     }
 
-    function renderValuesList(){
-      const box = document.getElementById('valuesList');
-      box.innerHTML = NAMING_SCHEMA.order.map(label=>{
-        const chips = (NAMING_SCHEMA.fields[label]||[]).map(v=>
-          `<div class="chip" role="button" tabindex="0" aria-label="Copy \"${v.code}\"" data-copy="${v.code}"><div class="label">${v.label}</div><div class="code">${v.code}</div></div>`
-        ).join('');
-        return `<details class="param"><summary>${label}</summary><div class="chips">${chips||'<em class="muted">No values</em>'}</div></details>`;
-      }).join('');
+    function addRecent(val){
+      try{
+        const raw=localStorage.getItem(RECENTS_KEY);
+        const arr=raw? JSON.parse(raw): [];
+        const filtered = arr.filter(x=>x!==val);
+        filtered.unshift(val);
+        const limited = filtered.slice(0, 12);
+        localStorage.setItem(RECENTS_KEY, JSON.stringify(limited));
+        renderRecents();
+      }catch(e){}
     }
 
-    function renderFields(){
-      fieldsEl.innerHTML='';
-      NAMING_SCHEMA.order.forEach(label=>{
-        const opts = NAMING_SCHEMA.fields[label]||[];
-        const wrap=document.createElement('div');
-        const id = 'fld_'+label.replace(/\s+/g,'_').toLowerCase();
-        wrap.innerHTML=`
-          <label for="${id}">${label}</label>
-          <select id="${id}" data-label="${label}">
-            <option value="" disabled selected></option>
-            ${opts.map(v=>`<option value="${v.code}">${v.label}</option>`).join('')}
-          </select>`;
-        fieldsEl.appendChild(wrap);
-        state[label]='';
+    function allSelected(){
+      return (gen.order||[]).every(f => {
+        if(!required.has(f)) return true; // optional allowed
+        return !!state[f];
       });
     }
 
-    const toCase=(s,mode)=> mode==='lower'? s.toLowerCase(): s;
-
-    function compose(){
-      const parts = NAMING_SCHEMA.order.map(l=>state[l]).filter(Boolean);
-      const complete = parts.length===NAMING_SCHEMA.order.length;
-      const out = toCase(parts.join(NAMING_SCHEMA.delimiter), NAMING_SCHEMA.case);
-      outputEl.textContent = out || 'Select values to generate…';
-      copyBtn.disabled = !complete;
-      if (copyNewBtn) copyNewBtn.disabled = !complete;
-      copyBtn.textContent = complete ? 'Copy' : 'Select All Values';
-      validity.textContent = complete ? 'Ready to copy' : 'Incomplete';
-      return { out, complete };
-    }
-
-    function toast(msg){
-      const t=document.createElement('div');
-      t.className='toast';
-      t.setAttribute('role','status');
-      t.setAttribute('aria-live','polite');
-      t.textContent=msg;
-      document.body.appendChild(t);
-      setTimeout(()=>t.remove(), 1200);
+    function highlightMissing(){
+      (gen.order||[]).forEach(f=>{
+        if(required.has(f) && !state[f]){
+          const el = document.getElementById(`${gen.id}_${f}`);
+          el && el.classList.add('missing');
+        }
+      });
     }
 
     function resetAll(){
-      document.querySelectorAll('select').forEach(s=>{s.selectedIndex=0;s.classList.remove('missing');});
-      NAMING_SCHEMA.order.forEach(l=>state[l]='');
+      (gen.order||[]).forEach(f=>{
+        const el=document.getElementById(`${gen.id}_${f}`);
+        if(el){ el.selectedIndex=0; el.classList.remove('missing'); }
+        state[f]='';
+      });
       compose();
     }
 
-    function highlightMissingFields(){
-      NAMING_SCHEMA.order.forEach(label=>{
-        const sel=document.querySelector(`select[data-label="${label}"]`);
-        if(!state[label]) sel.classList.add('missing');
-      });
+    function compose(){
+      const delimiter = gen.delimiter || '_';
+      const parts = (gen.order||[]).map(f => state[f] || '');
+      const cased = parts.map(p => byCase(p, gen.case||'lower'));
+      const joined = cased.filter(Boolean).join(delimiter);
+      const ok = allSelected();
+      statusPill.className = ok ? 'pill ok' : 'pill warn';
+      statusPill.innerHTML = ok ? '<b>Ready to copy</b>' : '<b>Select all fields</b>';
+      outPre.textContent = joined || 'Select values to generate…';
     }
-    
-    function attach(){
-      NAMING_SCHEMA.order.forEach(label=>{
-        const sel=document.querySelector(`select[data-label="${label}"]`);
-        sel.addEventListener('change', e=>{
-          state[label]=e.target.value;
-          sel.classList.remove('missing');
-          compose();
-        });
-      });
-      document.getElementById('resetBtn').addEventListener('click', resetAll);
 
-      async function doCopy(andReset=false){
-        const { out, complete } = compose();
-        if (!complete) return;
-        try{
-          await navigator.clipboard.writeText(out);
-          toast('Copied to clipboard');
-          addRecent(out);
-          if(andReset) resetAll();
-        }catch(err){
-          // Fallback: create a temporary textarea
-          const ta=document.createElement('textarea');
-          ta.value=out; document.body.appendChild(ta); ta.select();
-          const ok=document.execCommand('copy');
-          document.body.removeChild(ta);
-          if(ok){ toast('Copied'); addRecent(out); if(andReset) resetAll(); }
-          else{ toast('Copy failed'); }
-        }
+    async function copyOut(){
+      if(!allSelected()){
+        highlightMissing();
+        toast('Please select all required fields');
+        return;
       }
-
-      copyBtn.addEventListener('click', ()=>{
-        const { complete } = compose();
-        if (!complete) {
-          highlightMissingFields();
-          return;
-        }
-        doCopy(false);
-      });
-      if (copyNewBtn) copyNewBtn.addEventListener('click', ()=>{
-        const { complete } = compose();
-        if (!complete) {
-          highlightMissingFields();
-          return;
-        }
-        doCopy(true);
-      });
-
-      // === Chips: copy on click ===
-      const valuesList = document.getElementById('valuesList');
-      valuesList.addEventListener('click', async (e)=>{
-        const chip = e.target.closest('.chip');
-        if(!chip) return;
-        const text = chip.getAttribute('data-copy') || chip.querySelector('.code')?.textContent || '';
-        if(!text) return;
-        try{ await navigator.clipboard.writeText(text); toast(`Copied: ${text}`); }
-        catch(_){ toast('Copy failed'); }
-      });
-      valuesList.addEventListener('keydown', async (e)=>{
-        if(e.key!=='Enter' && e.key!==' '){ return; }
-        const chip = e.target.closest('.chip');
-        if(!chip) return;
-        e.preventDefault();
-        const text = chip.getAttribute('data-copy') || chip.querySelector('.code')?.textContent || '';
-        if(!text) return;
-        try{ await navigator.clipboard.writeText(text); toast(`Copied: ${text}`); }
-        catch(_){ toast('Copy failed'); }
-      });
-
-      // === Recents: copy / clear via delegation ===
-      recentsEl.addEventListener('click', async (e)=>{
-        const btn = e.target.closest('button');
-        if(!btn) return;
-        if(btn.id==='clearRecentsBtn'){ clearRecents(); return; }
-        const pill = e.target.closest('.recent-pill');
-        if(!pill) return;
-        const idx = +pill.getAttribute('data-recent');
-        const items = getRecents();
-        const text = items[idx];
-        if(!text) return;
-        try{ await navigator.clipboard.writeText(text); toast(`Copied: ${text}`); }
-        catch(_){ toast('Copy failed'); }
-      });
-
-      // === Theme toggle (icon) ===
-      const themeBtn=document.getElementById('themeBtn');
-      const themeIcon=document.getElementById('themeIcon');
-      const root=document.documentElement;
-      const saved=localStorage.getItem('theme')||'dark';
-      root.setAttribute('data-theme', saved);
-      themeIcon.textContent = saved==='dark' ? '🌙' : '☀️';
-      themeBtn.addEventListener('click', ()=>{
-        const cur=root.getAttribute('data-theme');
-        const next=cur==='dark'?'light':'dark';
-        root.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-        themeIcon.textContent = next==='dark' ? '🌙' : '☀️';
-      });
+      const delimiter = gen.delimiter || '_';
+      const parts = (gen.order||[]).map(f => state[f] || '');
+      const cased = parts.map(p => byCase(p, gen.case||'lower'));
+      const out = cased.filter(Boolean).join(delimiter);
+      try{
+        await navigator.clipboard.writeText(out);
+        toast('Copied to clipboard');
+        addRecent(out);
+        resetAll();
+      }catch(e){
+        const ta=document.createElement('textarea'); ta.value=out; document.body.appendChild(ta); ta.select();
+        const ok=document.execCommand('copy'); document.body.removeChild(ta);
+        if(ok){ toast('Copied'); addRecent(out); resetAll(); }
+        else { toast('Copy failed'); }
+      }
     }
 
-    async function loadSchema() {
-  const sourcePill = document.getElementById('sourcePill');
-  try {
-    const r = await fetch('schema.json', { cache: 'no-store' });
-    if (!r.ok) throw new Error('Missing schema.json');
-    const remote = await r.json();
-    if (!remote || !remote.order || !remote.fields) throw new Error('Bad schema format');
-    NAMING_SCHEMA = remote;
-    if (sourcePill) sourcePill.textContent = 'Remote JSON';
-  } catch (err) {
-    NAMING_SCHEMA = FALLBACK_SCHEMA;
-    if (sourcePill) sourcePill.textContent = 'Embedded JSON';
-    console.warn('Using embedded schema:', err?.message || err);
-  }
-}
+    copyBtn.addEventListener('click', copyOut);
+    clearBtnHead.addEventListener('click', resetAll);
 
-(async function init(){
-  await loadSchema();
-  renderFields(); attach(); compose(); renderValuesList(); renderRecents();
-  document.getElementById('year').textContent = new Date().getFullYear();
-})();
+    renderRecents();
+    compose();
+  }
+
+  function renderAll(){
+    const pairs = document.getElementById('pairs');
+    pairs.innerHTML = '';
+    // Render ALL generators by default
+    (MASTER.generators || []).forEach(gen => renderPair(pairs, gen));
+  }
+
+  async function loadSchema(url){
+    try{
+      const res = await fetch(url, {cache:'no-store'});
+      if(!res.ok) throw new Error('Load failed');
+      const json = await res.json();
+      if(!json || !Array.isArray(json.generators)) throw new Error('Invalid schema shape');
+      MASTER = json;
+      SCHEMA_MODE = 'Loaded';
+      try{ localStorage.setItem(SCHEMA_KEY, JSON.stringify(MASTER)); }catch(_){}
+      renderAll();
+    }catch(e){
+      try{
+        const raw = localStorage.getItem(SCHEMA_KEY);
+        if(raw){ MASTER = JSON.parse(raw); SCHEMA_MODE = 'Local copy'; renderAll(); return; }
+      }catch(_e){}
+      MASTER = DEFAULT_MASTER;
+      SCHEMA_MODE = 'Embedded JSON';
+      renderAll();
+    }
+  }
+
+  // Boot: render embedded first, then try to fetch external schema from known names
+  renderAll();
+  loadSchema('schema.master.json').catch(()=>loadSchema('schema.json'));
   </script>
 </body>
 </html>
