@@ -1,4 +1,4 @@
-# Naming Convention Generator
+# Name Generator
 ## Goal 
 Generate standardized asset names 
 
