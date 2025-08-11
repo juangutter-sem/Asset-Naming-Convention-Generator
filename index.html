@@ -86,12 +86,14 @@
     .recent-pill button{border:none;background:transparent;cursor:pointer;color:var(--muted)}
 
     /* ===== Focus states ===== */
-    :where(button, [role="button"], select, summary).focus-visible{outline:var(--focus);outline-offset:2px}
+    :where(button, [role="button"], select, summary):focus-visible{outline:var(--focus);outline-offset:2px}
     select.missing {
       border-color: #e74c3c !important; /* red border */
       box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.3);
     }
     
+      /* Utility */
+    .muted{color: var(--muted)}
   </style>
 </head>
 <body>
@@ -253,7 +255,7 @@
     }
 
     function resetAll(){
-      document.querySelectorAll('select').forEach(s=>s.selectedIndex=0);
+      document.querySelectorAll('select').forEach(s=>{s.selectedIndex=0;s.classList.remove('missing');});
       NAMING_SCHEMA.order.forEach(l=>state[l]='');
       compose();
     }
