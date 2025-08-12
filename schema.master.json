@@ -32,7 +32,7 @@
             "code": "pdsc"
           },
           {
-            "label": "Paid Search NonBrand",
+            "label": "Paid Search Non-Brand",
             "code": "srch"
           },
           {
@@ -96,11 +96,11 @@
             "code": "googleads"
           },
           {
-            "label": "bing",
+            "label": "Bing",
             "code": "bing"
           },
           {
-            "label": "tiktok",
+            "label": "TikTok",
             "code": "tiktok"
           }
         ],
@@ -110,7 +110,7 @@
             "code": "adroll"
           },
           {
-            "label": "Linkedin",
+            "label": "LinkedIn",
             "code": "linkedin"
           },
           {
@@ -132,7 +132,7 @@
         ],
         "CampaignType": [
           {
-            "label": "dynamic ads",
+            "label": "Dynamic Ads",
             "code": "dyn"
           },
           {
@@ -182,11 +182,11 @@
             "code": "Core"
           },
           {
-            "label": "Core1",
+            "label": "Core 1",
             "code": "Core1"
           },
           {
-            "label": "Core2",
+            "label": "Core 2",
             "code": "Core2"
           },
           {
@@ -194,11 +194,11 @@
             "code": "ROW"
           },
           {
-            "label": "ROWT1",
+            "label": "ROWT 1",
             "code": "ROWT1"
           },
           {
-            "label": "ROWT2",
+            "label": "ROWT 2",
             "code": "ROWT2"
           },
           {
@@ -210,52 +210,8 @@
             "code": "Nordics"
           },
           {
-            "label": "DE",
-            "code": "DE"
-          },
-          {
-            "label": "ES",
-            "code": "ES"
-          },
-          {
-            "label": "FR",
-            "code": "FR"
-          },
-          {
-            "label": "IT",
-            "code": "IT"
-          },
-          {
-            "label": "US",
-            "code": "US"
-          },
-          {
-            "label": "IN",
-            "code": "IN"
-          },
-          {
-            "label": "PT",
-            "code": "PT"
-          },
-          {
             "label": "LATAM",
             "code": "LATAM"
-          },
-          {
-            "label": "BR",
-            "code": "BR"
-          },
-          {
-            "label": "UY",
-            "code": "UY"
-          },
-          {
-            "label": "AR",
-            "code": "AR"
-          },
-          {
-            "label": "PE",
-            "code": "PE"
           },
           {
             "label": "ANZ",
@@ -297,7 +253,7 @@
           },
           {
             "label": "Spanish Latam",
-            "code": "ES_Latam"
+            "code": "ES-Latam"
           }
         ]
       }
