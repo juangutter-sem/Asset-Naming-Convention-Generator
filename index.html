@@ -1,0 +1,42 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DM Name Generator</title>
+  <meta name="description" content="Build consistent asset names from a documented naming convention." />
+
+  <!-- Inter font like the screenshot -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+
+  <header class="page container">
+    <div class="topmeta">
+      <h1>[DM Ops] Name Generator</h1>
+      <p>Build consistent names for Campaigns, Ad Groups, and Assets based on the standardized Naming Convention. To add or edit parameters/values contact DM Ops.</p>
+    </div>
+    <button id="themeBtn" class="themeToggle" type="button" aria-label="Toggle theme">🌓</button>
+  </header>
+
+  <main id="main" class="container">
+    <div id="pairs"></div>
+    <label for="csvUpload">Upload CSV</label>
+    <input type="file" id="csvUpload" accept=".csv" aria-describedby="csvInstructions">
+    <div id="csvDropZone" tabindex="0" aria-label="CSV drop zone">
+      <p id="csvInstructions">Upload a CSV file or drag it into this area. Use the <a href="https://docs.google.com/spreadsheets/d/1dnvlt8HyXBW0xU2PvM5_cLy-dz5Jke_M5egn_fCVQko/edit?gid=2047636821#gid=2047636821" target="_blank">CSV Master File</a> to add/edit/remove values.</p>
+    </div>
+  </main>
+
+  <footer class="container" style="margin-top:16px">
+    <div class="footer">
+      <small class="copyright">© 2025 Digital Marketing Ops</small>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
