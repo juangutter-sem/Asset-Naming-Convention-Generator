@@ -1,0 +1,1185 @@
+{
+  "generators": [
+    {
+      "id": "campaign",
+      "title": "Campaign Name",
+      "order": [
+        "Channel",
+        "User stage",
+        "Platform",
+        "Publisher",
+        "CampaignType",
+        "Region",
+        "Language"
+      ],
+      "delimiter": "_",
+      "case": "lower",
+      "optional": [
+        "Language"
+      ],
+      "fields": {
+        "Channel": [
+          {
+            "label": "Display",
+            "code": "dspl"
+          },
+          {
+            "label": "Paid Video",
+            "code": "pv"
+          },
+          {
+            "label": "Paid Social",
+            "code": "pdsc"
+          },
+          {
+            "label": "Paid Search NonBrand",
+            "code": "srch"
+          },
+          {
+            "label": "Paid Search Brand",
+            "code": "srch_semrush"
+          }
+        ],
+        "User stage": [
+          {
+            "label": "Engage",
+            "code": "engage"
+          },
+          {
+            "label": "Convert",
+            "code": "convert"
+          },
+          {
+            "label": "Attract",
+            "code": "attract"
+          },
+          {
+            "label": "Branding",
+            "code": "branding"
+          }
+        ],
+        "Platform": [
+          {
+            "label": "GDN",
+            "code": "gdn"
+          },
+          {
+            "label": "DV360",
+            "code": "dv"
+          },
+          {
+            "label": "Yahoo",
+            "code": "yahoodsp"
+          },
+          {
+            "label": "Youtube",
+            "code": "yt"
+          },
+          {
+            "label": "Meta",
+            "code": "meta"
+          },
+          {
+            "label": "LinkedIn",
+            "code": "linkedin"
+          },
+          {
+            "label": "Twitch",
+            "code": "twitch"
+          },
+          {
+            "label": "Reddit",
+            "code": "reddit"
+          },
+          {
+            "label": "Google Ads",
+            "code": "googleads"
+          },
+          {
+            "label": "bing",
+            "code": "bing"
+          },
+          {
+            "label": "tiktok",
+            "code": "tiktok"
+          }
+        ],
+        "Publisher": [
+          {
+            "label": "Adroll",
+            "code": "adroll"
+          },
+          {
+            "label": "Linkedin",
+            "code": "linkedin"
+          },
+          {
+            "label": "Reddit",
+            "code": "reddit"
+          },
+          {
+            "label": "Criteo",
+            "code": "criteo"
+          },
+          {
+            "label": "Moloco",
+            "code": "moloco"
+          },
+          {
+            "label": "Bing",
+            "code": "bing"
+          }
+        ],
+        "CampaignType": [
+          {
+            "label": "dynamic ads",
+            "code": "dyn"
+          },
+          {
+            "label": "Discovery Ads",
+            "code": "dsc"
+          },
+          {
+            "label": "Performance Max",
+            "code": "pmax"
+          },
+          {
+            "label": "Connected TV",
+            "code": "ctv"
+          },
+          {
+            "label": "Audio",
+            "code": "audio"
+          },
+          {
+            "label": "VideoView",
+            "code": "videoview"
+          },
+          {
+            "label": "VideoReach",
+            "code": "videoreach"
+          },
+          {
+            "label": "CPV",
+            "code": "cpv"
+          },
+          {
+            "label": "VAC",
+            "code": "vac"
+          },
+          {
+            "label": "DemandGen",
+            "code": "demandgen"
+          },
+          {
+            "label": "Podcast",
+            "code": "podcast"
+          }
+        ],
+        "Region": [
+          {
+            "label": "Core",
+            "code": "Core"
+          },
+          {
+            "label": "Core1",
+            "code": "Core1"
+          },
+          {
+            "label": "Core2",
+            "code": "Core2"
+          },
+          {
+            "label": "ROW",
+            "code": "ROW"
+          },
+          {
+            "label": "ROWT1",
+            "code": "ROWT1"
+          },
+          {
+            "label": "ROWT2",
+            "code": "ROWT2"
+          },
+          {
+            "label": "Asia",
+            "code": "Asia"
+          },
+          {
+            "label": "Nordics",
+            "code": "Nordics"
+          },
+          {
+            "label": "DE",
+            "code": "DE"
+          },
+          {
+            "label": "ES",
+            "code": "ES"
+          },
+          {
+            "label": "FR",
+            "code": "FR"
+          },
+          {
+            "label": "IT",
+            "code": "IT"
+          },
+          {
+            "label": "US",
+            "code": "US"
+          },
+          {
+            "label": "IN",
+            "code": "IN"
+          },
+          {
+            "label": "PT",
+            "code": "PT"
+          },
+          {
+            "label": "LATAM",
+            "code": "LATAM"
+          },
+          {
+            "label": "BR",
+            "code": "BR"
+          },
+          {
+            "label": "UY",
+            "code": "UY"
+          },
+          {
+            "label": "AR",
+            "code": "AR"
+          },
+          {
+            "label": "PE",
+            "code": "PE"
+          },
+          {
+            "label": "ANZ",
+            "code": "ANZ"
+          },
+          {
+            "label": "DACH",
+            "code": "DACH"
+          }
+        ],
+        "Language": [
+          {
+            "label": "English",
+            "code": "EN"
+          },
+          {
+            "label": "Spanish",
+            "code": "ES"
+          },
+          {
+            "label": "Portuguese",
+            "code": "PT"
+          },
+          {
+            "label": "Italian",
+            "code": "IT"
+          },
+          {
+            "label": "German",
+            "code": "DE"
+          },
+          {
+            "label": "French",
+            "code": "FR"
+          },
+          {
+            "label": "Japanese",
+            "code": "JA"
+          },
+          {
+            "label": "Spanish Latam",
+            "code": "ES_Latam"
+          }
+        ]
+      }
+    },
+    {
+      "id": "adgroup",
+      "title": "Ad Group Name",
+      "order": [
+        "Campaign Category",
+        "Campaign Name",
+        "Campaign Objective",
+        "Company Size",
+        "Audience",
+        "Persona",
+        "Campaign Content"
+      ],
+      "delimiter": "_",
+      "case": "lower",
+      "fields": {
+        "Campaign Category": [
+          {
+            "label": "Brand",
+            "code": "brand"
+          },
+          {
+            "label": "Main Funnel",
+            "code": "main"
+          },
+          {
+            "label": "Product",
+            "code": "product"
+          }
+        ],
+        "Campaign Name": [
+          {
+            "label": "Make It",
+            "code": "makeit"
+          },
+          {
+            "label": "Gaby",
+            "code": "gaby"
+          },
+          {
+            "label": "SMB",
+            "code": "smb"
+          },
+          {
+            "label": "Rapid AI",
+            "code": "rapidai"
+          },
+          {
+            "label": "PFC",
+            "code": "pfc"
+          },
+          {
+            "label": "PFC Edgy",
+            "code": "pfcedgy"
+          },
+          {
+            "label": "Toolkits",
+            "code": "toolkits"
+          }
+        ],
+        "Campaign Objective": [
+          {
+            "label": "Engagement",
+            "code": "engagement"
+          },
+          {
+            "label": "Lead",
+            "code": "lead"
+          },
+          {
+            "label": "Traffic",
+            "code": "traffic"
+          },
+          {
+            "label": "Conversions",
+            "code": "conversions"
+          }
+        ],
+        "Company Size": [
+          {
+            "label": "SMB",
+            "code": "smb-size"
+          },
+          {
+            "label": "Mid-market",
+            "code": "mid-size"
+          },
+          {
+            "label": "Enterprise",
+            "code": "enterprise-size"
+          }
+        ],
+        "Audience": [
+          {
+            "label": "Interest",
+            "code": "interest"
+          },
+          {
+            "label": "Keywords",
+            "code": "kws"
+          },
+          {
+            "label": "Inmarket",
+            "code": "inmarket"
+          },
+          {
+            "label": "Custom Interest",
+            "code": "custom-interest"
+          },
+          {
+            "label": "Combined",
+            "code": "combined"
+          },
+          {
+            "label": "Lookalike",
+            "code": "lookalike"
+          },
+          {
+            "label": "Visitors / Engaged",
+            "code": "visitors"
+          },
+          {
+            "label": "Registered / Convert",
+            "code": "reg"
+          },
+          {
+            "label": "High Intent",
+            "code": "high-intent"
+          },
+          {
+            "label": "Projects+Trials",
+            "code": "project-trials"
+          }
+        ],
+        "Persona": [
+          {
+            "label": "Full-Stack Marketer",
+            "code": "fsm"
+          },
+          {
+            "label": "SEO Professional",
+            "code": "seo"
+          },
+          {
+            "label": "Full-stack marketer + SEO professional",
+            "code": "fsm-seo"
+          },
+          {
+            "label": "SMBOwner+Fullstack marketer",
+            "code": "smb-fsm"
+          },
+          {
+            "label": "SMBOwner",
+            "code": "smb-owner"
+          },
+          {
+            "label": "AllPersona",
+            "code": "all-psn"
+          }
+        ],
+        "Campaign Content": [
+          {
+            "label": "SEO Toolkit",
+            "code": "SeoToolkit"
+          },
+          {
+            "label": "Advertiser Toolkit",
+            "code": "AdvertisingToolkit"
+          },
+          {
+            "label": "Traffic Toolkit",
+            "code": "TrafficToolkit"
+          },
+          {
+            "label": "Content Toolkit",
+            "code": "ContentToolkit"
+          },
+          {
+            "label": "Social Toolkit",
+            "code": "SocialToolkit"
+          },
+          {
+            "label": "Local Toolkit",
+            "code": "LocalToolkit"
+          },
+          {
+            "label": "AI Toolkit",
+            "code": "AIToolkit"
+          },
+          {
+            "label": "PR Toolkit",
+            "code": "PRToolkit"
+          },
+          {
+            "label": "All in One Toolkit",
+            "code": "Allinonetoolkit"
+          },
+          {
+            "label": "Enterprise",
+            "code": "Enterprise"
+          }
+        ]
+      }
+    },
+    {
+      "id": "asset",
+      "title": "Asset Name",
+      "order": [
+        "Campaign Category",
+        "Campaign Name",
+        "Persona",
+        "Landing Page Type",
+        "LP Content Name",
+        "Creative Name",
+        "Campaign Content",
+        "Asset Format",
+        "Asset SubType",
+        "Language"
+      ],
+      "delimiter": "_",
+      "case": "lower",
+      "fields": {
+        "Campaign Category": [
+          {
+            "label": "Brand",
+            "code": "brand"
+          },
+          {
+            "label": "Main",
+            "code": "main"
+          },
+          {
+            "label": "Product",
+            "code": "product"
+          }
+        ],
+        "Campaign Name": [
+          {
+            "label": "Make It",
+            "code": "makeit"
+          },
+          {
+            "label": "Gaby",
+            "code": "gaby"
+          },
+          {
+            "label": "SMB",
+            "code": "smb"
+          },
+          {
+            "label": "Rapid AI",
+            "code": "rapidai"
+          },
+          {
+            "label": "PFC",
+            "code": "pfc"
+          },
+          {
+            "label": "PFC edgy",
+            "code": "pfcedgy"
+          },
+          {
+            "label": "Toolkits",
+            "code": "toolkits"
+          }
+        ],
+        "Persona": [
+          {
+            "label": "Full-Stack Marketer",
+            "code": "fsm"
+          },
+          {
+            "label": "SEO",
+            "code": "seo"
+          },
+          {
+            "label": "Full-Stack Marketer - SEO",
+            "code": "fsm-seo"
+          },
+          {
+            "label": "SMB - Full Stack Marketer",
+            "code": "smb-fsm"
+          },
+          {
+            "label": "SMB",
+            "code": "smb"
+          },
+          {
+            "label": "All-PSN",
+            "code": "all-psn"
+          }
+        ],
+        "Landing Page Type": [
+          {
+            "label": "Blogpost",
+            "code": "bp"
+          },
+          {
+            "label": "LP",
+            "code": "lp"
+          },
+          {
+            "label": "SS",
+            "code": "ss"
+          },
+          {
+            "label": "Webinar",
+            "code": "web"
+          },
+          {
+            "label": "Event",
+            "code": "evt"
+          },
+          {
+            "label": "WP",
+            "code": "wp"
+          },
+          {
+            "label": "Academy",
+            "code": "acd"
+          },
+          {
+            "label": "Ebook",
+            "code": "ebook"
+          },
+          {
+            "label": "Case Study",
+            "code": "cs"
+          }
+        ],
+        "LP Content Name": [
+          {
+            "label": "solution-all-in-one",
+            "code": "solution-all-in-one"
+          },
+          {
+            "label": "product-seo-challenges",
+            "code": "product-seo-challenges"
+          },
+          {
+            "label": "traffic-analytics-7-new",
+            "code": "traffic-analytics-7-new"
+          },
+          {
+            "label": "product-content-marketing",
+            "code": "product-content-marketing"
+          },
+          {
+            "label": "product-free-trial",
+            "code": "product-free-trial"
+          },
+          {
+            "label": "product-instant-market-insights-1",
+            "code": "product-instant-market-insights-1"
+          },
+          {
+            "label": "product-all-in-one-local-marketing-solution-new",
+            "code": "product-all-in-one-local-marketing-solution-new"
+          },
+          {
+            "label": "product-keyword-magic-tool-7",
+            "code": "product-keyword-magic-tool-7"
+          },
+          {
+            "label": "product-semrush-plans-comparison",
+            "code": "product-semrush-plans-comparison"
+          },
+          {
+            "label": "creating-reports-with-semrush-report-builder",
+            "code": "creating-reports-with-semrush-report-builder"
+          },
+          {
+            "label": "advanced-google-ads-tips-skyrocket-your-profit",
+            "code": "advanced-google-ads-tips-skyrocket-your-profit"
+          }
+        ],
+        "Creative Name": [
+          {
+            "label": "competitorresearch",
+            "code": "competitorresearch"
+          },
+          {
+            "label": "fixsiteseo",
+            "code": "fixsiteseo"
+          },
+          {
+            "label": "jtbddiscoverwinningkeywords",
+            "code": "jtbddiscoverwinningkeywords"
+          },
+          {
+            "label": "allseoonetab",
+            "code": "allseoonetab"
+          },
+          {
+            "label": "wanttoknow",
+            "code": "wanttoknow"
+          },
+          {
+            "label": "seochecklist",
+            "code": "seochecklist"
+          },
+          {
+            "label": "discoverexactkeywords",
+            "code": "discoverexactkeywords"
+          },
+          {
+            "label": "fixtechnicalseo",
+            "code": "fixtechnicalseo"
+          },
+          {
+            "label": "algorithmchanged",
+            "code": "algorithmchanged"
+          },
+          {
+            "label": "competitorsknowyourstrategy",
+            "code": "competitorsknowyourstrategy"
+          },
+          {
+            "label": "12tabsopen",
+            "code": "12tabsopen"
+          },
+          {
+            "label": "searchmoves",
+            "code": "searchmoves"
+          },
+          {
+            "label": "404problems",
+            "code": "404problems"
+          },
+          {
+            "label": "herocornershop",
+            "code": "herocornershop"
+          },
+          {
+            "label": "sssmileworks",
+            "code": "sssmileworks"
+          },
+          {
+            "label": "herofancylimousines",
+            "code": "herofancylimousines"
+          },
+          {
+            "label": "sssmokies",
+            "code": "sssmokies"
+          },
+          {
+            "label": "jtbdfreetrial",
+            "code": "jtbdfreetrial"
+          },
+          {
+            "label": "jtbdrankinyear",
+            "code": "jtbdrankinyear"
+          },
+          {
+            "label": "nottocry",
+            "code": "nottocry"
+          },
+          {
+            "label": "toomanythings",
+            "code": "toomanythings"
+          },
+          {
+            "label": "createcontentforpeople",
+            "code": "createcontentforpeople"
+          },
+          {
+            "label": "jtbdfreetrialrecolored",
+            "code": "jtbdfreetrialrecolored"
+          },
+          {
+            "label": "youragency",
+            "code": "youragency"
+          },
+          {
+            "label": "explorer",
+            "code": "explorer"
+          },
+          {
+            "label": "herocorporateladder",
+            "code": "herocorporateladder"
+          },
+          {
+            "label": "newtoseo",
+            "code": "newtoseo"
+          },
+          {
+            "label": "improveseoperformance",
+            "code": "improveseoperformance"
+          },
+          {
+            "label": "startingseojourney",
+            "code": "startingseojourney"
+          },
+          {
+            "label": "makebusinessnr1",
+            "code": "makebusinessnr1"
+          },
+          {
+            "label": "succeedonline",
+            "code": "succeedonline"
+          },
+          {
+            "label": "comicsilentrating",
+            "code": "comicsilentrating"
+          },
+          {
+            "label": "betterseo",
+            "code": "betterseo"
+          },
+          {
+            "label": "HJTBDImproveblogpost",
+            "code": "hjtbdimproveblogpost"
+          },
+          {
+            "label": "rankhighercontent",
+            "code": "rankhighercontent"
+          },
+          {
+            "label": "contentinone",
+            "code": "contentinone"
+          },
+          {
+            "label": "createseofriendlycontentinoneplace",
+            "code": "createseofriendlycontentinoneplace"
+          },
+          {
+            "label": "simlpifysocialmedia",
+            "code": "simlpifysocialmedia"
+          },
+          {
+            "label": "checklist",
+            "code": "checklist"
+          },
+          {
+            "label": "fixissuesnew",
+            "code": "fixissuesnew"
+          },
+          {
+            "label": "UGCrankhigh",
+            "code": "ugcrankhigh"
+          },
+          {
+            "label": "growbusiness",
+            "code": "growbusiness"
+          },
+          {
+            "label": "investigatecompetitors",
+            "code": "investigatecompetitors"
+          },
+          {
+            "label": "HJTBDfindpopularproducts",
+            "code": "hjtbdfindpopularproducts"
+          },
+          {
+            "label": "alltoolsinone",
+            "code": "alltoolsinone"
+          },
+          {
+            "label": "UGCdrivetraffic",
+            "code": "ugcdrivetraffic"
+          },
+          {
+            "label": "comicdontdothis",
+            "code": "comicdontdothis"
+          },
+          {
+            "label": "reportresults",
+            "code": "reportresults"
+          },
+          {
+            "label": "quotehighintent",
+            "code": "quotehighintent"
+          },
+          {
+            "label": "404highintent",
+            "code": "404highintent"
+          },
+          {
+            "label": "stuckhighintent",
+            "code": "stuckhighintent"
+          },
+          {
+            "label": "everythingyouneed",
+            "code": "everythingyouneed"
+          },
+          {
+            "label": "SEOChallengesYTComponent",
+            "code": "seochallengesytcomponent"
+          },
+          {
+            "label": "SEOChallengesOptimizedCreatives",
+            "code": "seochallengesoptimizedcreatives"
+          },
+          {
+            "label": "competitorsspikedhighintent",
+            "code": "competitorsspikedhighintent"
+          },
+          {
+            "label": "competitorsoutpacinghighintent",
+            "code": "competitorsoutpacinghighintent"
+          },
+          {
+            "label": "analyzerival",
+            "code": "analyzerival"
+          },
+          {
+            "label": "analyzecompetitor",
+            "code": "analyzecompetitor"
+          },
+          {
+            "label": "CompetitiveResearchYTComponent",
+            "code": "competitiveresearchytcomponent"
+          },
+          {
+            "label": "grabaudiencesattention",
+            "code": "grabaudiencesattention"
+          },
+          {
+            "label": "SEOWritingAssistant5YTComponent",
+            "code": "seowritingassistant5ytcomponent"
+          },
+          {
+            "label": "Swamped",
+            "code": "swamped"
+          },
+          {
+            "label": "whichtask",
+            "code": "whichtask"
+          },
+          {
+            "label": "EasySolutionsOptimizedCreatives",
+            "code": "easysolutionsoptimizedcreatives"
+          },
+          {
+            "label": "digitalinsighttrends",
+            "code": "digitalinsighttrends"
+          },
+          {
+            "label": "trafficinsights",
+            "code": "trafficinsights"
+          },
+          {
+            "label": "sslibereatnew",
+            "code": "sslibereatnew"
+          },
+          {
+            "label": "revampmarketingstrategynew",
+            "code": "revampmarketingstrategynew"
+          },
+          {
+            "label": "ssmorningside",
+            "code": "ssmorningside"
+          },
+          {
+            "label": "jtbdAImagic",
+            "code": "jtbdaimagic"
+          },
+          {
+            "label": "findkeywords",
+            "code": "findkeywords"
+          },
+          {
+            "label": "ugc3reasons",
+            "code": "ugc3reasons"
+          },
+          {
+            "label": "UGCgrowagency",
+            "code": "ugcgrowagency"
+          },
+          {
+            "label": "sslibereatagency",
+            "code": "sslibereatagency"
+          },
+          {
+            "label": "pitchprospects",
+            "code": "pitchprospects"
+          },
+          {
+            "label": "ssuhs",
+            "code": "ssuhs"
+          },
+          {
+            "label": "whitelabelandautomatedreporting",
+            "code": "whitelabelandautomatedreporting"
+          },
+          {
+            "label": "driveROIwiththerightkeywords",
+            "code": "driveroiwiththerightkeywords"
+          },
+          {
+            "label": "tbc",
+            "code": "tbc"
+          },
+          {
+            "label": "ugcdailydatajen",
+            "code": "ugcdailydatajen"
+          },
+          {
+            "label": "rankhigh",
+            "code": "rankhigh"
+          },
+          {
+            "label": "getlocalcustomers",
+            "code": "getlocalcustomers"
+          },
+          {
+            "label": "keywordresearch",
+            "code": "keywordresearch"
+          },
+          {
+            "label": "dissect",
+            "code": "dissect"
+          },
+          {
+            "label": "boostproductivity",
+            "code": "boostproductivity"
+          },
+          {
+            "label": "jusrregistered",
+            "code": "jusrregistered"
+          },
+          {
+            "label": "inc",
+            "code": "inc"
+          }
+        ],
+        "Campaign Content": [
+          {
+            "label": "Seo Toolkit",
+            "code": "seotoolkit"
+          },
+          {
+            "label": "Advertising Toolkit",
+            "code": "advertisingtoolkit"
+          },
+          {
+            "label": "Traffic Toolkit",
+            "code": "traffictoolkit"
+          },
+          {
+            "label": "Content Toolkit",
+            "code": "contenttoolkit"
+          },
+          {
+            "label": "Social Toolkit",
+            "code": "socialtoolkit"
+          },
+          {
+            "label": "Local Toolkit",
+            "code": "localtoolkit"
+          },
+          {
+            "label": "AI Toolkit",
+            "code": "aitoolkit"
+          },
+          {
+            "label": "PR Toolkit",
+            "code": "prtoolkit"
+          },
+          {
+            "label": "All-in-One Toolkit",
+            "code": "allinonetoolkit"
+          },
+          {
+            "label": "Enterprise",
+            "code": "enterprise"
+          }
+        ],
+        "Asset Format": [
+          {
+            "label": "HTML5 Banner",
+            "code": "bnr-html5"
+          },
+          {
+            "label": "Animated Banner",
+            "code": "bnr-anim"
+          },
+          {
+            "label": "Carousel",
+            "code": "carousel"
+          },
+          {
+            "label": "Dynamic Remarketing",
+            "code": "dynrem"
+          },
+          {
+            "label": "Inmail",
+            "code": "inmail"
+          },
+          {
+            "label": "Image",
+            "code": "image"
+          },
+          {
+            "label": "Video 10s",
+            "code": "video10s"
+          },
+          {
+            "label": "Video 15s",
+            "code": "video15s"
+          },
+          {
+            "label": "Video 30s",
+            "code": "video30s"
+          },
+          {
+            "label": "Video over 30s",
+            "code": "videoover30s"
+          }
+        ],
+        "Asset SubType": [
+          {
+            "label": "AIJTBD",
+            "code": "aijtbd"
+          },
+          {
+            "label": "AnimatedJTBD",
+            "code": "animatedjtbd"
+          },
+          {
+            "label": "ShootJTBD",
+            "code": "shootjtbd"
+          },
+          {
+            "label": "AIUGC",
+            "code": "aiugc"
+          },
+          {
+            "label": "ShootVSC",
+            "code": "shootvsc"
+          },
+          {
+            "label": "Human",
+            "code": "human"
+          },
+          {
+            "label": "Human+UI",
+            "code": "humanui"
+          },
+          {
+            "label": "UI",
+            "code": "ui"
+          },
+          {
+            "label": "Quote",
+            "code": "quote"
+          },
+          {
+            "label": "ShootSS",
+            "code": "shootss"
+          },
+          {
+            "label": "Checklist",
+            "code": "checklist"
+          },
+          {
+            "label": "ProductWalkthrough",
+            "code": "productwalkthrough"
+          }
+        ],
+        "Language": [
+          {
+            "label": "English",
+            "code": "en"
+          },
+          {
+            "label": "Spanish",
+            "code": "es"
+          },
+          {
+            "label": "French",
+            "code": "fr"
+          },
+          {
+            "label": "German",
+            "code": "de"
+          }
+        ]
+      }
+    }
+  ]
+}
