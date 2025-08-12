@@ -15,7 +15,8 @@
       "delimiter": "_",
       "case": "lower",
       "optional": [
-        "Language"
+        "Language",
+        "Publisher"
       ],
       "fields": {
         "Channel": [
